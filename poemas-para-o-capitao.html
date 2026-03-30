@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Poemas para o Capitão - Mural Patriota</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        /* --- ESTILOS DO MURAL --- */
+        .mural-container {
+            background-color: #111;
+            border: 2px solid #006400;
+            padding: 20px;
+            margin-top: 20px;
+            min-height: 400px;
+        }
+        #login-secao, #form-carta {
+            background: #1a1a1a;
+            padding: 20px;
+            border: 1px dashed #FFD700;
+            margin-bottom: 30px;
+        }
+        #form-carta { display: none; }
+        .input-patriota, textarea {
+            padding: 10px; background: #000; border: 1px solid #FFD700;
+            color: #fff; margin-bottom: 10px; width: 100%; box-sizing: border-box;
+        }
+        .cartinha {
+            background: #080808; border-bottom: 1px solid #333;
+            padding: 20px; margin-bottom: 10px; text-align: left;
+            display: flex; gap: 15px; animation: fadeIn 0.5s;
+        }
+        .avatar { width: 50px; height: 50px; background: #006400; border: 1px solid #FFD700; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .autor-nome { color: #FFD700; font-weight: bold; font-size: 14px; }
+        .sufixo-obrigatorio { color: #00FF00; font-style: italic; display: block; margin-top: 10px; }
+        
+        /* --- NOVO: ESTILOS DO PAINEL DE ÁUDIO --- */
+        .painel-audio {
+            background-color: #111;
+            border: 1px solid #FFD700;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .painel-audio span {
+            color: #FFD700;
+            font-weight: bold;
+            margin-right: 15px;
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+        .btn-audio {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 5px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 5px;
+            transition: 0.2s;
+        }
+        .btn-audio:hover { background-color: #006400; border-color: #00FF00; }
+        .btn-audio.stop:hover { background-color: #8B0000; border-color: #ff0000; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+    <header><h1>POEMAS PARA O CAPITÃO</h1></header>
+    <nav>
+        <ul>
+             <li><a href="index.html" class="home-link">🇧🇷<br><span>home</span></a></li>
+            <li><a href="bolsonaro-hipotetico.html">Bolsonaro hipotético</a></li>
+            <li><a href="roleta-conservadora.html">roleta conservadora</a></li>
+            <li><a href="poemas-para-o-capitao.html">poemas para o capitão</a></li>
+            <li><a href="radar-patriota.html">radar patriota</a></li>
+            <li><a href="sobre.html">sobre</a></li>
+        </ul>
+    </nav>
+
+    <div class="layout-container">
+        <main class="content-area">
+            
+            <div class="painel-audio">
+                <span>Hino Patriota:</span>
+                <button class="btn-audio" onclick="playMusica()">▶ PLAY</button>
+                <button class="btn-audio stop" onclick="stopMusica()">⏹ STOP</button>
+            </div>
+
+            <div id="login-secao">
+                <input type="text" id="usuario-nome" class="input-patriota" placeholder="Seu Nome de Patriota">
+                <button onclick="fazerLogin()" class="btn-patriota">Entrar no Mural</button>
+            </div>
+
+            <div id="form-carta">
+                <textarea id="texto-poema" placeholder="Escreva sua mensagem..."></textarea>
+                <select id="sufixo-escolhido" class="input-patriota">
+                    <option value="Para meu capitão">Para meu capitão</option>
+                    <option value="Para o Mito">Para o Mito</option>
+                    <option value="Para meu amor Jair Messias Bolsonaro">Para meu amor Jair Messias Bolsonaro</option>
+                    <option value="Para meu Presidente">Para meu presidente</option>
+                    <option value="Para meu dono Jair">Para meu dono Jair</option>
+                    <option value="Talkei?">Talkei?</option>
+                    <option value="- Patriota anônimo">- Patriota anônimo</option>
+                    <option value="- E tem que se fuder e acabou porra.">- E tem que se fuder e acabou porra.</option>
+                </select>
+                <button onclick="postarCarta()" class="btn-patriota">Publicar Cartinha</button>
+            </div>
+
+            <div id="mural" class="mural-container">
+                <p style="color: #666;">Carregando mensagens do arquivo secreto...</p>
+            </div>
+
+            <div id="audio-container"></div>
+        </main>
+    </div>
+
+   <script>
+    const _supabaseUrl = 'https://pnrewsvdblzecidzffpa.supabase.co'; 
+    const _supabaseKey = 'sb_publishable_wF4_-YC3iPy1Hnd2zwG6zQ_2bxMli8-';
+    const supabaseClient = supabase.createClient(_supabaseUrl, _supabaseKey);
+
+    let nomeUsuario = "";
+
+    // --- FUNÇÕES DE ÁUDIO ---
+    function playMusica() {
+        const container = document.getElementById('audio-container');
+        if (container.innerHTML === "") {
+            // Coloquei a trilha épica do Bolsonaro Hipotético, pode trocar o ID se quiser outra
+            container.innerHTML = `<iframe width="1" height="1" src="https://www.youtube.com/embed/365ile92GOU?autoplay=1" frameborder="0" allow="autoplay" style="display:none;"></iframe>`;
+        }
+    }
+
+    function stopMusica() {
+        document.getElementById('audio-container').innerHTML = "";
+    }
+
+    function fazerLogin() {
+        const nome = document.getElementById('usuario-nome').value;
+        if (nome.trim()) {
+            nomeUsuario = nome;
+            document.getElementById('login-secao').style.display = 'none';
+            document.getElementById('form-carta').style.display = 'block';
+            playMusica(); // Toca música automaticamente ao entrar no mural
+        } else {
+            alert("Digite seu nome de patriota!");
+        }
+    }
+
+    async function postarCarta() {
+        const texto = document.getElementById('texto-poema').value;
+        const sufixo = document.getElementById('sufixo-escolhido').value;
+        if (!texto.trim()) return;
+
+        const { error } = await supabaseClient
+            .from('cartinhas')
+            .insert([{ nome: nomeUsuario, conteudo: texto, sufixo: sufixo }]);
+
+        if (error) alert("Erro ao enviar: " + error.message);
+        else {
+            document.getElementById('texto-poema').value = "";
+            carregarCartas();
+        }
+    }
+
+    async function carregarCartas() {
+        const { data: cartas, error } = await supabaseClient
+            .from('cartinhas')
+            .select('*')
+            .order('created_at', { ascending: false });
+
+        const mural = document.getElementById('mural');
+        if (error) {
+            mural.innerHTML = '<p style="color:red">Erro ao carregar o mural.</p>';
+            return;
+        }
+        mural.innerHTML = '';
+        if (cartas) {
+            cartas.forEach(c => {
+                mural.innerHTML += `
+                    <div class="cartinha">
+                        <div class="avatar">🇧🇷</div>
+                        <div class="conteudo-carta">
+                            <div class="autor-nome">${c.nome}</div>
+                            <div class="texto-carta">${c.conteudo}</div>
+                            <span class="sufixo-obrigatorio">${c.sufixo}</span>
+                        </div>
+                    </div>`;
+            });
+        }
+    }
+
+    carregarCartas();
+</script>
+</body>
+</html>

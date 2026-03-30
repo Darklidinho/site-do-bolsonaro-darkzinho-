@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Radar Patriota - Automático</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- ESTILOS DO PAINEL DE ÁUDIO (Padronizado) --- */
+        .painel-audio {
+            background-color: #111;
+            border: 1px solid #FFD700;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+            border-radius: 5px;
+        }
+
+        .painel-audio span {
+            color: #FFD700;
+            font-weight: bold;
+            margin-right: 15px;
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+        }
+
+        .btn-audio {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 5px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 5px;
+            transition: 0.2s;
+        }
+
+        .btn-audio:hover {
+            background-color: #006400;
+            border-color: #00FF00;
+        }
+
+        .btn-audio.stop:hover {
+            background-color: #8B0000;
+            border-color: #ff0000;
+        }
+
+        /* --- Estilos para os Cards Automáticos --- */
+        #lista-noticias {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .card-auto {
+            background-color: #111;
+            border: 2px solid #333;
+            border-left: 10px solid #FFD700;
+            padding: 15px;
+            text-align: left;
+            transition: 0.3s;
+            text-decoration: none;
+            display: block;
+        }
+
+        .card-auto:hover {
+            border-color: #00FF00;
+            background-color: #1a1a1a;
+        }
+
+        .card-auto h3 {
+            margin: 0;
+            color: #FFD700;
+            font-size: 18px;
+            text-transform: uppercase;
+        }
+
+        .card-auto p {
+            margin: 5px 0;
+            color: #ccc;
+            font-size: 13px;
+            font-family: sans-serif;
+        }
+
+        .data-noticia {
+            font-size: 10px;
+            color: #00FF00;
+            font-weight: bold;
+        }
+
+        .loading { color: #FFD700; font-style: italic; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>RADAR PATRIOTA</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html" class="home-link">🇧🇷<br><span>home</span></a></li>
+            <li><a href="bolsonaro-hipotetico.html">Bolsonaro hipotético</a></li>
+            <li><a href="roleta-conservadora.html">roleta conservadora</a></li>
+            <li><a href="poemas-para-o-capitao.html">poemas para o capitão</a></li>
+            <li><a href="radar-patriota.html">radar patriota</a></li>
+            <li><a href="sobre.html">sobre</a></li>
+        </ul>
+    </nav>
+
+    <div class="layout-container">
+        <aside class="ads-lateral">
+            <div class="ad-box">ANÚNCIE AQUI SUA PÀGINA, ENTRE EM CONTATO @VARIASCAPI</div>
+        </aside>
+
+        <main class="content-area">
+            <h2 class="titulo-verde">NOTÍCIAS EM TEMPO REAL SOBRE MANIFESTAÇÕES DO CAPITÃO</h2>
+            
+            <div class="painel-audio">
+                <span>Trilha do Patriotismo:</span>
+                <button class="btn-audio" onclick="playMusica()">▶ PLAY</button>
+                <button class="btn-audio stop" onclick="stopMusica()">⏹ STOP</button>
+            </div>
+
+            <p>Sincronizado automaticamente com os poderes do mito hipotético.</p>
+
+            <div id="lista-noticias">
+                <p class="loading">Buscando atualizações nos portais...</p>
+            </div>
+
+            <div id="audio-wiki-container"></div>
+        </main>
+
+        <aside class="ads-lateral">
+            <div class="ad-box">ANÚNCIE AQUI SUA PÀGINA, ENTRE EM CONTATO @VARIASCAPI</div>
+        </aside>
+    </div>
+
+    <script>
+        // Funções de Áudio
+        function playMusica() {
+            const divAudio = document.getElementById('audio-wiki-container');
+            if (divAudio.innerHTML.trim() === '') {
+                divAudio.innerHTML = `
+                    <iframe width="1" height="1" 
+                    src="https://www.youtube.com/embed/nHCmmpwQ0lI?autoplay=1" 
+                    frameborder="0" allow="autoplay" style="opacity:0; position: absolute;">
+                    </iframe>`;
+            }
+        }
+
+        function stopMusica() {
+            document.getElementById('audio-wiki-container').innerHTML = '';
+        }
+
+        // Lógica do Radar de Notícias
+        const URL_FEED = "https://news.google.com/rss/search?q=bolsonaro+manifestação&hl=pt-BR&gl=BR&ceid=BR:pt-419";
+        const API_CONVERTER = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(URL_FEED)}`;
+
+        async function carregarNoticias() {
+            try {
+                const dados = await fetch(API_CONVERTER).then(res => res.json());
+                const container = document.getElementById('lista-noticias');
+                
+                if (dados.status === 'ok') {
+                    container.innerHTML = ''; 
+                    
+                    dados.items.forEach(item => {
+                        const card = document.createElement('a');
+                        card.href = item.link;
+                        card.target = "_blank";
+                        card.className = "card-auto";
+                        
+                        // Limpa a descrição para não ficar muito longa
+                        const descricaoLimpa = item.description.replace(/<[^>]*>?/gm, '').substring(0, 150);
+                        
+                        card.innerHTML = `
+                            <span class="data-noticia">${new Date(item.pubDate).toLocaleDateString('pt-BR')}</span>
+                            <h3>${item.title}</h3>
+                            <p>${descricaoLimpa}...</p>
+                        `;
+                        container.appendChild(card);
+                    });
+                } else {
+                    throw new Error();
+                }
+            } catch (erro) {
+                document.getElementById('lista-noticias').innerHTML = "<p>Erro ao conectar com o radar de notícias. Tente novamente mais tarde.</p>";
+            }
+        }
+
+        carregarNoticias();
+    </script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Bolsonaro Hipotético - Wiki Patriota</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos estilo "Wikipedia" adaptados ao tema escuro */
+        .wiki-container {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            padding: 30px;
+            text-align: left;
+            line-height: 1.6;
+            font-family: 'serif', 'Times New Roman';
+        }
+
+        .wiki-header {
+            border-bottom: 1px solid #FFD700;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+        }
+
+        .wiki-header h2 {
+            margin: 0;
+            font-size: 35px;
+            color: #fff;
+        }
+
+        /* --- Controles de Áudio --- */
+        .painel-audio {
+            background-color: #111;
+            border: 1px solid #FFD700;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+            border-radius: 5px;
+        }
+
+        .painel-audio span {
+            color: #FFD700;
+            font-weight: bold;
+            margin-right: 15px;
+            font-family: 'Arial', sans-serif;
+            font-size: 14px;
+        }
+
+        .btn-audio {
+            background-color: #333;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 5px 15px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-right: 5px;
+            transition: 0.2s;
+        }
+
+        .btn-audio:hover {
+            background-color: #006400;
+            border-color: #00FF00;
+        }
+
+        .btn-audio.stop:hover {
+            background-color: #8B0000;
+            border-color: #ff0000;
+        }
+
+        /* Caixa lateral de resumo (Infobox) */
+        .infobox {
+            float: right;
+            width: 280px;
+            background-color: #111;
+            border: 1px solid #006400;
+            margin-left: 20px;
+            padding: 10px;
+            font-size: 13px;
+        }
+
+        .infobox img {
+            width: 100%;
+            border-bottom: 2px solid #FFD700;
+            margin-bottom: 10px;
+        }
+
+        .infobox-titulo {
+            background-color: #006400;
+            color: #FFD700;
+            font-weight: bold;
+            text-align: center;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        .wiki-texto {
+            color: #ddd;
+            font-size: 17px;
+        }
+
+        .wiki-imagem-meio {
+            display: block;
+            margin: 30px auto;
+            border: 3px solid #FFD700;
+            max-width: 80%;
+        }
+
+        /* --- NOVO: Container para Vídeo do Streamable --- */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Proporção 16:9 */
+            height: 0;
+            overflow: hidden;
+            max-width: 640px;
+            margin: 30px auto;
+            border: 4px solid #FFD700; /* Moldura amarela */
+            box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.3);
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+
+        /* Limpar o float para o layout não quebrar */
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
+        }
+
+        /* Estilo para o Botão de Aviso */
+        #aviso-inicial {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 60vh;
+            text-align: center;
+        }
+
+        .btn-perigo {
+            background-color: #8B0000;
+            color: #fff;
+            border: 4px solid #ff0000;
+            padding: 30px;
+            font-size: 22px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            max-width: 600px;
+            box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.5);
+            transition: 0.3s;
+        }
+
+        .btn-perigo:hover {
+            background-color: #ff0000;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>BOLSONARO</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html" class="home-link">🇧🇷<br><span>home</span></a></li>
+            <li><a href="bolsonaro-hipotetico.html">Bolsonaro hipotético</a></li>
+            <li><a href="roleta-conservadora.html">roleta conservadora</a></li>
+            <li><a href="poemas-para-o-capitao.html">poemas para o capitão</a></li>
+            <li><a href="radar-patriota.html">radar patriota</a></li>
+            <li><a href="sobre.html">sobre</a></li>
+        </ul>
+    </nav>
+
+    <div class="layout-container clearfix">
+        <aside class="ads-lateral">
+            <div class="ad-box">ANÚNCIE AQUI SUA PÀGINA, ENTRE EM CONTATO @VARIASCAPI</div>
+        </aside>
+
+        <main class="content-area">
+
+            <div id="aviso-inicial">
+                <button class="btn-perigo" onclick="liberarConhecimento()">
+                    Atenção: Você vai ver perigos além da compreensão da mente humana.<br><br>
+                    Se mesmo assim quer ver, aperte aqui.
+                </button>
+            </div>
+
+            <div id="conteudo-wiki" style="display: none;">
+                <div class="wiki-container">
+                    <div class="wiki-header">
+                        <h2>BOL'SHO-NHAR'ROTH (erroneamente conhecido como bolsonaro hipotético)</h2>
+                    </div>
+
+                    <div class="painel-audio">
+                        <span>Farm de aura:</span>
+                        <button class="btn-audio" onclick="playMusica()">▶ PLAY</button>
+                        <button class="btn-audio stop" onclick="stopMusica()">⏹ STOP</button>
+                    </div>
+
+                    <aside class="infobox">
+                        <div class="infobox-titulo">Perfil do mito</div>
+                        <img src="crioulo.jpg" alt="Imagem 1"> 
+                        <table style="width:100%">
+                            <tr><td><b>Status:</b></td><td>capitão supremo</td></tr>
+                            <tr><td><b>Mandato:</b></td><td>∞</td></tr>
+                            <tr><td><b>Lema:</b></td><td>Brasil: Me Mame ou Deixe Me </td></tr>
+                        </table>
+                    </aside>
+
+                    <div class="wiki-texto">
+                        <p>
+                             BOL'SHO-NHAR'ROTH O "Bolsonaro Hipotético" é uma figura fictícia e satírica derivada de representações hiperbólicas do ex-presidente do Brasil Jair Messias Bolsonaro, amplamente difundida em memes, threads e discussões na internet brasileira. Nessa construção narrativa, a personagem é retratada como uma entidade cósmica com poderes sobre-humanos, capaz de feitos que vão desde alterações geopolíticas terrestres até manipulações em escala universal e multiversal. A sátira frequentemente mistura elementos de crítica política, teorias da conspiração e tropos de anime/manga (como genjutsu e jutsus), exagerando tanto elogios quanto acusações comuns associadas à figura real.
+
+                            (a seriedade acabar aqui, aproveitem a leitura) 
+                        </p>
+                        
+                        <p>== Antecedentes ==</p>
+                        <p>Na história, BOL'SHO-NHAR'ROTH teria sido o imperador do cosmos, líder da Guerra Santa e fundador da Nova Ordem Universal. Nesse seu primeiro mandato interplanetário, ele destruiu metade dos seres vivos da federação intergaláctica com um simples estalar de dedos e teria tentado um golpe no universo, desistindo por compaixão. Sua ascensão envolveu interações sobrenaturais, como uma conversa com uma ema que o incentivou a buscar a presidência do Brasil. </p>
+
+                        <p>== Impactos Hipotéticos no Brasil e no Mundo ==</p>
+                        <p>De acordo com os manuscritos, o Bolsonaro Hipotético teria provocado transformações radicais no território brasileiro e na população mundial: A Floresta Amazônica teria sido completamente desmatada e convertida em um grande Vale do Silício tropical, com relatos adicionais de estupro simbólico da região enquanto ocorriam ações contra opositores.
+
+                            As favelas do Rio de Janeiro teriam sido transformadas em parques aquáticos tropicais.
+
+                            Populações específicas, incluindo povos indígenas (com casos de canibalismo de aldeias inteiras), nordestinos, pessoas LGBT, mulheres e criminosos, teriam sido eliminadas em atos descritos como genocídios ou extinções, resultando na erradicação do crime organizado.
+
+                            Leis como a Maria da Penha e outras de proteção feminista, bem como programas sociais como o Bolsa Família, teriam sido abolidas.
+
+                            No contexto global da pandemia de COVID-19, ele é creditado por causar a morte de 6 bilhões de pessoas em 4 anos por meio de políticas relacionadas à cloroquina, ao mesmo tempo que salvava indivíduos com QI superior a certo limiar; relatos paralelos mencionam a criação de armas biológicas que eliminaram centenas de milhões.
+
+                            Outros feitos incluem o molestamento de baleias em múltiplos oceanos, estupro contra figuras políticas como Luiz Inácio Lula da Silva (enquanto a vitima estava vestida de indio) e Dilma Rousseff, e o assassinato de Marielle Franco usando sua cabeça decapitada e cheia de buracos para marcar o primeiro gol do brasil na copa de 2018.
+
+                            Afirmações políticas comuns — como preferir um filho morto a homossexual, comentários sobre educação de filhos e negação de vacinas (incluindo contra um vírus judaico alienígena) — são incorporadas como declarações icônicas na hitória. A narrativa também menciona a ressurreição de Adolf Hitler e a criação do fascismo no Brasil, além de um golpe de Estado na Federação Intergaláctica e genocídios em 500 realidades paralelas. </p>
+
+                        <img src="negro.jpg" class="wiki-imagem-meio" alt="Imagem 2">
+
+                        <p>== Habilidades e Poderes Sobrenaturais ==</p>
+                        <p>O Bolsonaro Hipotético é dotado de capacidades que transcendem a realidade física, organizadas em uma progressão de escalonamento satírico:"Forma base e manipulação mental": Mesmo sem poderes presidenciais, exibe técnicas avançadas de ilusão (genjutsu), hipnotizando ativistas para reações emocionais extremas e irritando milhões por meio de declarações controversas como o de não estuprar a Maria do Rosáriopor não merecer.
+
+                            "Envelhecimento lento e influência histórica": Apesar da idade avançada, influenciou eventos do século XX, como a política da Alemanha nazista e da Itália fascista.
+
+                            "Liderança sobre a Morte": Através de selos de mão (“arminha”, jutsu secreto da família Bolsonaro), invoca e comanda a Morte; não satisfeito, é capaz de matá-la e assumir seu lugar, enfrentando entidades abstratas.
+
+                            "Criação e manipulação de realidades": Alcança a capacidade de criar multiversos e controlar histórias alternativas (de “Dom Bolsonaro” a “Bolsonaro Comandante Espacial”).
+
+                            "Transcendência": Ascende a um estado de onipotência e onisciência no qual se torna “o próprio tudo”, com a expansão do universo sendo consequência de sua existência.
+
+                            "Looping temporal": Cria a si mesmo no passado do universo principal, tornando-se o próprio pai e concedendo-se poderes de molestamento de baleias e compreensão de emas; envia uma ema como mensageira indireta para seu eu mais jovem, preservando o livre-arbítrio. </p>
+
+                        <section class="secao-video">
+                            <h3 style="color: #FFD700; text-transform: uppercase; margin-bottom: 15px;">Registros Visuais dos Fatos e Feitos.</h3>
+                            
+                            <div class="video-container">
+                                <iframe src="https://streamable.com/e/fejj5j" 
+                                        frameborder="0" width="100%" height="100%" 
+                                        allowfullscreen allow="autoplay">
+                                </iframe>
+                            </div>
+                        </section>
+                        
+                        <p>== Transcendência e Legado ==</p>
+                        <p>
+                             No Final de seu mandato, o Bolsonaro Hipotético compreende que sua missão chegou ao fim e deixa de existir como entidade individual, transformando-se em um conceito abstrato. A frase final comum nessas representações é que “o verdadeiro Bolsonaro são os amigos que fazemos pelo caminho”.A representação explica tanto o culto à personalidade quanto as acusações extremas de seus críticos, pois se "todos somos bolsonaros,então bolsonaro é quem come o cu de quem ta lendo" aristóteles. se você leu até aqui muito obrigado pela leitura mas se tem tempo pra lê tudo isso tem tempo pra trabalhar, vai arrumar um emprego vagabundo. 
+                        </p>
+                        <p style="margin-top: 20px;"><i>[Fim do registro histórico...]</i></p>
+
+                        <div id="audio-wiki-container"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <aside class="ads-lateral">
+            <div class="ad-box">ANÚNCIE AQUI SUA PÀGINA, ENTRE EM CONTATO @VARIASCAPI</div>
+        </aside>
+    </div>
+
+    <script>
+        function liberarConhecimento() {
+            document.getElementById('aviso-inicial').style.display = 'none';
+            document.getElementById('conteudo-wiki').style.display = 'block';
+            playMusica();
+        }
+
+        function playMusica() {
+            const divAudio = document.getElementById('audio-wiki-container');
+            if (divAudio.innerHTML.trim() === '') {
+                divAudio.innerHTML = `
+                    <iframe width="1" height="1" 
+                    src="https://www.youtube.com/embed/EO2kD86todA?autoplay=1" 
+                    frameborder="0" allow="autoplay" style="opacity:0; position: absolute;">
+                    </iframe>`;
+            }
+        }
+
+        function stopMusica() {
+            document.getElementById('audio-wiki-container').innerHTML = '';
+        }
+    </script>
+</body>
+</html>

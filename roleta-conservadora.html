@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Roleta Conservadora - Vercel Edition</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos da Roleta */
+        .container-roleta {
+            max-width: 900px;
+            margin: 20px auto;
+            background: #111;
+            border: 5px solid #006400;
+            padding: 15px;
+            min-height: 500px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .midia-sorteada {
+            max-width: 100%;
+            max-height: 70vh;
+            border: 4px solid #FFD700;
+        }
+
+        /* Estilo para o Iframe de vídeo (Streamable/YouTube) */
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+            width: 100%;
+            max-width: 640px;
+            border: 4px solid #FFD700;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+
+        .btn-girar {
+            margin: 20px 0;
+            padding: 15px 35px;
+            background-color: #006400;
+            color: #FFD700;
+            font-size: 20px;
+            font-weight: bold;
+            border: 3px solid #FFD700;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+
+        .btn-girar:hover { background-color: #008000; transform: scale(1.05); }
+
+        /* Painel de Áudio */
+        .painel-audio {
+            background-color: #111;
+            border: 1px solid #FFD700;
+            padding: 10px;
+            margin-bottom: 20px;
+            display: inline-block;
+            border-radius: 5px;
+        }
+        .painel-audio span { color: #FFD700; font-weight: bold; margin-right: 15px; font-size: 14px; }
+        .btn-audio { background-color: #333; color: #fff; border: 1px solid #555; padding: 5px 15px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>ROLETA CONSERVADORA</h1>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html" class="home-link">🇧🇷<br><span>home</span></a></li>
+            <li><a href="bolsonaro-hipotetico.html">Bolsonaro hipotético</a></li>
+            <li><a href="roleta-conservadora.html">roleta conservadora</a></li>
+            <li><a href="poemas-para-o-capitao.html">poemas para o capitão</a></li>
+            <li><a href="radar-patriota.html">radar patriota</a></li>
+            <li><a href="sobre.html">sobre</a></li>
+        </ul>
+    </nav>
+
+    <div class="layout-container">
+        <main class="content-area">
+            
+            <div class="painel-audio">
+                <span>22:</span>
+                <button class="btn-audio" onclick="playMusica()">▶ PLAY</button>
+                <button class="btn-audio stop" onclick="stopMusica()">⏹ STOP</button>
+            </div>
+
+            <div class="container-roleta" id="espaco-midia">
+                <p style="color: #FFD700;">ORDEM RECEBIDA: AGUARDANDO GIRO...</p>
+            </div>
+
+            <button class="btn-girar" onclick="girarNovamente()">GIRAR ROLETA 🔄</button>
+
+            <div id="audio-wiki-container"></div>
+        </main>
+    </div>
+
+    <script>
+        // Configurações
+        const limiteImagens = 784;
+        const totalItens = 836;
+        const pastaMidia = "midia/";
+        const extensoesImg = [".jpg", ".png", ".gif"];
+
+        function girarNovamente() {
+            const container = document.getElementById('espaco-midia');
+            container.innerHTML = '<p style="color: #FFD700;">SORTEANDO...</p>';
+            
+            const num = Math.floor(Math.random() * totalItens) + 1;
+
+            if (num <= limiteImagens) {
+                // LÓGICA PARA IMAGENS (1 até 784)
+                tentarImagem(num, 0);
+            } else {
+                // LÓGICA PARA VÍDEOS (785 até 836)
+                // Se você for usar links externos (Streamable), pode criar um objeto com os links aqui
+                // Por enquanto, vou assumir que são arquivos locais .mp4
+                exibirVideoLocal(num);
+            }
+        }
+
+        function tentarImagem(num, extIndex) {
+            if (extIndex >= extensoesImg.length) {
+                document.getElementById('espaco-midia').innerHTML = `<p style="color:red;">Imagem ${num} não encontrada.</p>`;
+                return;
+            }
+            const ext = extensoesImg[extIndex];
+            const img = new Image();
+            img.src = `${pastaMidia}patriota (${num})${ext}`;
+            img.className = "midia-sorteada";
+            img.onload = () => {
+                const container = document.getElementById('espaco-midia');
+                container.innerHTML = "";
+                container.appendChild(img);
+            };
+            img.onerror = () => tentarImagem(num, extIndex + 1);
+        }
+
+        function exibirVideoLocal(num) {
+            const container = document.getElementById('espaco-midia');
+            // Se for arquivo local na Vercel:
+            container.innerHTML = `
+                <video src="${pastaMidia}patriota (${num}).mp4" 
+                       class="midia-sorteada" controls autoplay>
+                </video>`;
+            
+            
+            const linksVideos = {
+                785: "https://streamable.com/e/52plda",
+                786: "https://streamable.com/e/jkee2f",
+                787: "https://streamable.com/e/f9vzfd",
+                788: "https://streamable.com/e/81vakh",
+                789: "https://streamable.com/e/q8n869",
+                790: "https://streamable.com/e/1u1yo8",
+                791: "https://streamable.com/e/w5vgsk",
+                792: "https://streamable.com/e/j0n4uc",
+                793: "https://streamable.com/e/i0ipy3",
+                794: "https://streamable.com/e/v9634w",
+                795: "https://streamable.com/e/kb30cm",
+                796: "https://streamable.com/e/m4ajnx",
+                797: "https://streamable.com/e/2yy208",
+                798: "https://streamable.com/e/vz6oj6",
+                799: "https://streamable.com/e/lhbax8",
+                800: "https://streamable.com/e/u41jkb",
+                801: "https://streamable.com/e/805bkb",
+                802: "https://streamable.com/e/d4tsbo",
+                803: "https://streamable.com/e/l6cxji",
+                804: "https://streamable.com/e/hu2lwd",
+                805: "https://streamable.com/e/xe421e",
+                806: "https://streamable.com/e/0l45zm",
+                807: "https://streamable.com/e/blfwed",
+                808: "https://streamable.com/e/5a3w1h",
+                809: "https://streamable.com/e/ple708",
+                810: "https://streamable.com/e/sq63ab",
+                811: "https://streamable.com/e/0ccp6w",
+                812: "https://streamable.com/e/r5cbq7",
+                813: "https://streamable.com/e/uuoitk",
+                814: "https://streamable.com/e/uj3jhw",
+                815: "https://streamable.com/e/07bp8u",
+                816: "https://streamable.com/e/9bkbff",
+                817: "https://streamable.com/e/59evrx",
+                818: "https://streamable.com/e/3c86rr",
+                819: "https://streamable.com/e/rvtk3f",
+                820: "https://streamable.com/e/7frdx1",
+                821: "https://streamable.com/e/eup3r4",
+                822: "https://streamable.com/e/9koxon",
+                823: "https://streamable.com/e/blyy7h",
+                824: "https://streamable.com/e/xio9nh",
+                825: "https://streamable.com/e/as373p",
+                826: "https://streamable.com/e/vjz4xu",
+                827: "https://streamable.com/e/ixfxba",
+                828: "https://streamable.com/e/gfnt3g",
+                829: "https://streamable.com/e/iw32xt",
+                830: "https://streamable.com/e/430vez",
+                831: "https://streamable.com/e/rqm2ys",
+                832: "https://streamable.com/e/sajmz8",
+                833: "https://streamable.com/e/45c0tu",
+                834: "https://streamable.com/e/6a9wkz",
+                835: "https://streamable.com/e/npu91b",
+                836: "https://streamable.com/e/ql7m0q"
+                
+            };
+            container.innerHTML = `<div class="video-wrapper"><iframe src="${linksVideos[num]}"></iframe></div>`;
+            
+        }
+
+        // Áudio (YouTube invisível)
+        function playMusica() {
+            const divAudio = document.getElementById('audio-wiki-container');
+            if (divAudio.innerHTML === '') {
+                divAudio.innerHTML = `<iframe width="1" height="1" src="https://www.youtube.com/embed/r8j6gT1E6W4?autoplay=1" frameborder="0" allow="autoplay" style="display:none;"></iframe>`;
+            }
+        }
+        function stopMusica() { document.getElementById('audio-wiki-container').innerHTML = ''; }
+
+        window.onload = girarNovamente;
+    </script>
+</body>
+</html>

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Site Do Bolsonaro - Home</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* --- ESTILOS DO PAINEL DE ÁUDIO --- */
+        .painel-audio {
+            background-color: #111;
+            border: 1px solid #FFD700;
+            padding: 10px;
+            margin: 20px 0;
+            display: inline-block;
+            border-radius: 5px;
+            text-align: left;
+        }
+        .painel-audio span {
+            color: #FFD700;
+            font-weight: bold;
+            margin-right: 15px;
+            font-family: sans-serif;
+            font-size: 14px;
+        }
+        .btn-audio {
+            background-color: #333; color: #fff; border: 1px solid #555;
+            padding: 5px 15px; cursor: pointer; font-weight: bold; margin-right: 5px;
+        }
+        .btn-audio:hover { background-color: #006400; border-color: #00FF00; }
+        .btn-audio.stop:hover { background-color: #8B0000; border-color: #ff0000; }
+
+          /* --- NOVO: ESTILOS DO ALVO GIGANTE E IRREGULAR --- */
+
+        .secao-alvo {
+
+            margin-top: 100px; /* Mais espaço antes */
+
+            padding: 60px 0;
+
+            text-align: center;
+
+            background-color: #080808;
+
+            padding-bottom: 80px;
+
+            border-top: 3px solid #333;
+
+        }
+
+
+        .alvo-container {
+
+            position: relative;
+
+            width: 900px; /* --- AUMENTO MASSIVO DO TAMANHO --- */
+
+            height: 900px; /* --- AUMENTO MASSIVO DO TAMANHO --- */
+
+            margin: 0 auto;
+
+            border-radius: 50%;
+
+            border: 10px solid #333; /* Borda mais grossa para o alvo gigante */
+
+            background-color: #f0f0f0;
+
+            box-shadow: 0px 0px 50px rgba(255, 0, 0, 0.2); /* Sombra vermelha de perigo */
+
+        }
+
+
+        /* Os Anéis do Alvo */
+
+        .anel-alvo {
+
+            position: absolute;
+
+            top: 50%; left: 50%;
+
+            transform: translate(-50%, -50%);
+
+            border-radius: 50%;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+        }
+
+
+        /* Anel Externo (Vermelho) */
+
+        .anel-1 { width: 100%; height: 100%; background-color: #ff0000; }
+
+        /* Anel Médio (Branco) */
+
+        .anel-2 { width: 75%; height: 75%; background-color: #ffffff; }
+
+        /* Anel Interno (Vermelho) */
+
+        .anel-3 { width: 50%; height: 50%; background-color: #ff0000; }
+
+        /* Centro (Preto - onde vai a imagem principal) */
+
+        .centro-alvo {
+
+            width: 25%; height: 25%;
+
+            background-color: #000;
+
+            border-radius: 50%;
+
+            display: flex; flex-direction: column;
+
+            align-items: center; justify-content: center;
+
+            border: 4px solid #FFD700; /* Destaque dourado para o centro */
+
+        }
+
+
+        /* Estilo dos Cards com suporte a tamanho variável */
+
+.item-alvo {
+
+    position: absolute;
+
+    /* Se você não definir um tamanho no HTML, ele usa 140px por padrão */
+
+    width: var(--largura, 140px);
+
+    background-color: #000;
+
+    border: 2px solid #FFD700;
+
+    border-radius: 8px;
+
+    padding: 10px;
+
+    text-align: center;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+
+    justify-content: center;
+
+    box-shadow: 0px 4px 10px rgba(0,0,0,0.5);
+
+    z-index: 10;
+
+}
+
+
+/* Garante que a imagem se ajuste ao novo tamanho do card */
+
+.foto-alvo {
+
+    width: 100%;
+
+    height: auto;
+
+    max-height: 150px; /* Aumentei um pouco o limite para imagens verticais */
+
+    border: 1px solid #333;
+
+    margin-bottom: 8px;
+
+    display: block;
+
+    object-fit: contain; /* Mantém a imagem inteira sem cortar */
+
+}
+
+
+        /* Texto Amarelo e Quebrado em linhas */
+
+        .nome-alvo {
+
+            color: #FFD700; /* Amarelo patriota no fundo preto */
+
+            font-size: 11px; /* Fonte legível */
+
+            font-weight: bold;
+
+            display: block;
+
+            text-transform: uppercase;
+
+            font-family: sans-serif;
+
+            word-wrap: break-word; /* --- FORÇA A QUEBRA DE LINHA DO TEXTO --- */
+
+            line-height: 1.2;
+
+        }
+
+
+       /* --- POSIÇÕES AFRASTADAS E DISTRIBUÍDAS (Para Alvo de 900px) --- */
+
+
+/* --- POSIÇÕES AFRASTADAS E DISTRIBUÍDAS (Para Alvo de 900px) --- */
+
+
+/* Efeito base para todos os cards virem para frente */
+
+.item-alvo:hover {
+
+    z-index: 100;
+
+    transition: transform 0.2s;
+
+}
+
+
+/* Hover para cards SEM transformações de alinhamento */
+
+.item-alvo:not(.alvo-pos-3):not(.alvo-pos-10):not(.alvo-pos-6):not(.alvo-pos-7):hover {
+
+    transform: scale(1.05);
+
+}
+
+
+/* NOVAS POSIÇÕES COM CORREÇÃO DE HOVER */
+
+
+.alvo-pos-1 { top: 5%; left: 5%; }
+
+.alvo-pos-2 { top: 22%; left: 18%; }
+
+
+/* Itens que usam translateX(-50%) */
+
+.alvo-pos-3 { top: 2%; left: 50%; transform: translateX(-50%); }
+
+.alvo-pos-3:hover { transform: translateX(-50%) scale(1.05); }
+
+
+.alvo-pos-10 { bottom: 2%; left: 50%; transform: translateX(-50%); }
+
+.alvo-pos-10:hover { transform: translateX(-50%) scale(1.05); }
+
+
+.alvo-pos-4 { top: 5%; left: 78%; }
+
+.alvo-pos-5 { top: 25%; left: 68%; }
+
+
+/* Itens que usam translateY(-50%) */
+
+.alvo-pos-6 { top: 50%; left: 1%; transform: translateY(-50%); }
+
+.alvo-pos-6:hover { transform: translateY(-50%) scale(1.05); }
+
+
+.alvo-pos-7 { top: 50%; left: 83%; transform: translateY(-50%); }
+
+.alvo-pos-7:hover { transform: translateY(-50%) scale(1.05); }
+
+
+.alvo-pos-8 { bottom: 5%; left: 3%; }
+
+.alvo-pos-9 { bottom: 25%; left: 15%; }
+
+.alvo-pos-11 { bottom: 5%; left: 80%; }
+
+.alvo-pos-12 { bottom: 28%; left: 72%; }
+
+
+/* Distribuição mais larga */
+
+.alvo-pos-1 { top: 5%; left: 5%; }             /* Noroeste bem afastado */
+
+.alvo-pos-2 { top: 22%; left: 18%; }           /* Noroeste médio */
+
+.alvo-pos-3 { top: 2%; left: 50%; transform: translateX(-50%); } /* Norte topo */
+
+.alvo-pos-4 { top: 5%; left: 78%; }            /* Nordeste bem afastado */
+
+.alvo-pos-5 { top: 25%; left: 68%; }           /* Nordeste médio */
+
+.alvo-pos-6 { top: 50%; left: 1%; transform: translateY(-50%); } /* Extrema esquerda */
+
+.alvo-pos-7 { top: 50%; left: 83%; transform: translateY(-50%); } /* Extrema direita */
+
+.alvo-pos-8 { bottom: 5%; left: 3%; }          /* Sudoeste bem afastado */
+
+.alvo-pos-9 { bottom: 25%; left: 15%; }        /* Sudoeste médio */
+
+.alvo-pos-10 { bottom: 2%; left: 50%; transform: translateX(-50%); } /* Sul base */
+
+.alvo-pos-11 { bottom: 5%; left: 80%; }        /* Sudeste bem afastado */
+
+.alvo-pos-12 { bottom: 28%; left: 72%; }       /* Sudeste médio */
+
+        .texto-satira {
+
+            font-size: 14px;
+
+            color: #777;
+
+            font-style: italic;
+
+            margin-top: 30px;
+
+            max-width: 600px;
+
+            display: inline-block;
+
+        } 
+        /* --- ESTILO PARA O VÍDEO DO STREAMABLE --- */
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* Proporção 16:9 */
+            height: 0;
+            overflow: hidden;
+            max-width: 640px;
+            margin: 30px auto;
+            border: 3px solid #FFD700; /* Moldura amarela */
+            border-radius: 8px;
+        }
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+        }
+
+        .texto-satira {
+            font-size: 14px;
+            color: #777;
+            font-style: italic;
+            margin-top: 30px;
+            max-width: 600px;
+            display: inline-block;
+        }
+    </style>
+</head>
+<body>
+
+    <header><h1>SITE DO BOLSONARO</h1></header>
+
+    <nav>
+        <ul>
+            <li><a href="index.html">🇧🇷<br><span>home</span></a></li>
+            <li><a href="bolsonaro-hipotetico.html">Bolsonaro hipotético</a></li>
+            <li><a href="roleta-conservadora.html">roleta conservadora</a></li>
+            <li><a href="poemas-para-o-capitao.html">poemas para o capitão</a></li>
+            <li><a href="radar-patriota.html">radar patriota</a></li>
+            <li><a href="sobre.html">sobre</a></li>
+        </ul>
+    </nav>
+
+    <div class="layout-container">
+        <aside class="ads-lateral">
+            <div class="ad-box">ANÚNCIE AQUI SUA PÀGINA, ENTRE EM CONTATO @VARIASCAPI</div>
+        </aside>
+
+        <main class="content-area">
+            
+            <div id="setup-inicial" style="text-align: center;">
+                <button class="btn-patriota" onclick="ativarSite()">
+                    aperte aqui para se tornar um patriota
+                </button>
+            </div>
+
+            <div id="conteudo-patriota" style="display: none;">
+                
+                <div class="painel-audio">
+                    <span>sons patrióticos:</span>
+                    <button class="btn-audio" onclick="playMusica()">▶ PLAY</button>
+                    <button class="btn-audio stop" onclick="stopMusica()">⏹ STOP</button>
+                </div>
+
+                <h2 class="titulo-verde">MANIFESTO PATRIOTA</h2>
+                
+                <p>Atenção boiolas, venho por meio desse texto dizer que esse site foi feito em homenagem ao criador do mesmo ter chegado a meta de mil seguidores, com muito orgulho eu apresento a vocês o maravilhoso SITE DO MITO (ou para os intimos) O SITE PATRIOTA.</p>
+
+                <img src="bolsonaro_peixe.jpg" class="img-patriota" style="width:100%">
+
+                <p>-após ler meu Face, Eu fiz esse site para mostrar não só o meu amor mais sim o amor de varios usuarios que assim como eu ama jair messias bolsonaro, o intuito desse site é ser uma satíra (OUVIU ESQUERDA? ESTOU FAZENDO UMA SATÍRA POLÍTICA E VOCÊS PODEM FAZER NADA CONTRA, CHUPA PETISTAS) e além do mais eu conversei com meu advogado e ele disse para deixar claro que eu não tenho odio alguma esquerda. tenho odio apenas de Petistas,Feministas,Gordas,Favelados,Nordestinos,Paraenses,Viados,Travecos e toda a comunidade LGBT incluindo os pedófilos. 
+            
+               </p>
+               <p>como a média brasileira de qi é 83 então agora darei uma breve explicação de como fuciona cada página do site. essa e a homepage, a página prinicpal com o ALVO DOS INIMIGOS DA PÁTRIA. Ao lado temos a página do BOLSONARO HIPOTÉTICO que seria uma visão dos esquerdistas em geral tem do bolsonaro. seguindo temos A ROLETA CONSERVADORA que toda vez que você entra na página ou aperta em "rodar roleta" ele vai gerar uma imagem, video ou gif aleatório sobre o bolsonaro ou algum meme patríotico. depois temos POEMAS PARA O CAPITÃO, você temm o direito de fazer uma cartinha para o capitão e quando terminar ela estará lá para que todos os patriotas possam ver. o penultimo é o RADAR PATRIOTA, onde é possivel ver toda notícia sobre manifestações do bolsonaro (ou qualquer notícia que tenha bolsonaro + manifestação). a ultima pagína fala SOBRE o desevolvimento do site, cretidos, PIX PATRIOTA etc, se quiser ajudar a pagína acesse lá. 
+
+               </p> 
+                <img src="aceita_pt.jpg" class="img-patriota" style="width:100%">
+                  <p>Queria daixar registrado aqui que sim, SOU PATRIOTA e sim, NÓS DAR O CU PRO BOLSONARO, CHORA MAIS PT
+
+    precisa dizer mais alguma coisa? Só não vê quem não quer.
+
+ </p> 
+                <div class="video-container">
+                    <iframe src="https://streamable.com/e/y6eih0" 
+                            frameborder="0" width="100%" height="100%" 
+                            allowfullscreen allow="autoplay">
+                    </iframe>
+                </div>
+
+                <p>_-=CARTA ABERTA PARA JAIR MESSIAS BOLSONARO=-_</p>
+                <p>Capitão estive muito preocupado com seu quadro de saúde e venho através dessa carta lhe desejar boa melhora e bons dias daqui pra frente, acredito que seu filho ira virar presidente e que o senhor conseguirar ver um brasil melhor, muito obrigado por tudo que o senhor fez, meus anos de 2018 a 2022 foram mágicos, com saúde e muita felicídade e o senhor fez o possível para isso acontecer, obviamente o senhor não me ajudou fisicamente, mas eu consigo lembrar do sorriso da minha mãe quando ela não trabalhava tanto e conseguia sorrir para mim sem ter a angústia de conseguir dinheiro para comemos no próximo dia, muito obrigado por tudo que o senhor fez, Brasil acima de tudo, Deus acima de todos.
+
+                    - atenciosamente, Darkzinho 1461 </p>
+
+                <section class="secao-alvo">
+
+                    <h3 class="titulo-verde" style="font-size: 30px;">INIMIGOS DA PÁTRIA</h3>
+
+                    <p style="color: #ccc; margin-bottom: 20px;">alvos da operação ronnie lessa 2.0 .</p>
+
+
+                    <div class="alvo-container">
+
+                        <div class="anel-alvo anel-1">
+
+                            <div class="anel-alvo anel-2">
+
+                                <div class="anel-alvo anel-3">
+
+                                   
+
+                                    <div class="centro-alvo">
+
+                                        <img src="ovo.jpg" class="foto-alvo" alt="Mito" style="border: 2px solid #FFD700; border-radius: 50%;">
+
+                                        <span class="nome-alvo" style="color: #FFD700;">ALEXANDRE DE MORAES</span>
+
+                                    </div>
+
+                                   
+
+                                </div>
+
+
+                                <div class="item-alvo alvo-pos-1"><img src="op1.jpg" class="foto-alvo"><span class="nome-alvo">globolixo</span></div>
+
+                                <div class="item-alvo alvo-pos-2"><img src="op2.jpg" class="foto-alvo"><span class="nome-alvo">facada</span></div>
+
+                                <div class="item-alvo alvo-pos-3"><img src="op3.jpg" class="foto-alvo"><span class="nome-alvo">doentes mentais</span></div>
+
+                                <div class="item-alvo alvo-pos-4"><img src="op4.jpg" class="foto-alvo"><span class="nome-alvo">felipe santos silva</span></div>
+
+                                <div class="item-alvo alvo-pos-5"><img src="op5.jpg" class="foto-alvo"><span class="nome-alvo">PT</span></div>
+
+                                <div class="item-alvo alvo-pos-6"><img src="op6.jpg" class="foto-alvo"><span class="nome-alvo">feministas</span></div>
+
+                                <div class="item-alvo alvo-pos-7"><img src="op7.jpg" class="foto-alvo"><span class="nome-alvo">furada</span></div>
+
+                                <div class="item-alvo alvo-pos-8"><img src="op8.jpg" class="foto-alvo"><span class="nome-alvo">HERNIA INGUINAL BILATERAL</span></div>
+
+                                <div class="item-alvo alvo-pos-9"><img src="op9.jpg" class="foto-alvo"><span class="nome-alvo">jornalistas</span></div>
+
+                                <div class="item-alvo alvo-pos-10"><img src="op10.jpg" class="foto-alvo"><span class="nome-alvo">pdf</span></div>
+
+                                <div class="item-alvo alvo-pos-11"><img src="op11.jpg" class="foto-alvo"><span class="nome-alvo">Presidiário</span></div>
+
+                                <div class="item-alvo alvo-pos-12"><img src="op12.jpg" class="foto-alvo"><span class="nome-alvo">STF</span></div>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <p class="texto-satira">
+
+                        Atenção: A imagem acima é uma representação satírica e humorística,
+
+                        se você é esquerdista e continua chorando, saiba que choro de viado e puta Deus não escuta.
+
+                    </p>
+
+                </section> 
+
+                <div id="audio-container"></div>
+            </div>
+        </main>
+
+        <aside class="ads-lateral">
+            <div class="ad-box">ANÚNCIE AQUI SUA PÀGINA, ENTRE EM CONTATO @VARIASCAPI</div>
+        </aside>
+    </div>
+
+    <script>
+        function ativarSite() {
+            document.getElementById('setup-inicial').style.display = 'none';
+            document.getElementById('conteudo-patriota').style.display = 'block';
+            playMusica();
+        }
+
+        function playMusica() {
+            const container = document.getElementById('audio-container');
+            if (container.innerHTML === "") {
+                container.innerHTML = `
+                    <iframe 
+                        width="0" height="0" 
+                        src="https://www.youtube.com/embed/_qUi5-M8WPE?autoplay=1&mute=0&loop=1&playlist=_qUi5-M8WPE" 
+                        frameborder="0" 
+                        allow="autoplay; encrypted-media" 
+                        style="position: absolute; left: -9999px;">
+                    </iframe>`;
+            }
+        }
+        function stopMusica() {
+            document.getElementById('audio-container').innerHTML = "";
+        }
+    </script>
+</body>
+</html>
