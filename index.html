@@ -47,7 +47,14 @@
             border-top: 3px solid #333;
 
         }
-
+.content-area {
+    flex: 1;
+    padding: 0 20px;
+    /* ADICIONE ESTAS 3 LINHAS ABAIXO */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o botão horizontalmente */
+}
 
         .alvo-container {
 
@@ -357,9 +364,11 @@
     </nav>
 
     <div class="layout-container">
-        <aside class="ads-lateral">
+    <aside class="ads-lateral">
             <div class="ad-box">ANÚNCIE AQUI SUA PÀGINA, ENTRE EM CONTATO @VARIASCAPI</div>
-        </aside>
+    </aside>
+
+
 
         <main class="content-area">
             
@@ -455,7 +464,7 @@
 
                                 <div class="item-alvo alvo-pos-9"><img src="op9.jpg" class="foto-alvo"><span class="nome-alvo">jornalistas</span></div>
 
-                                <div class="item-alvo alvo-pos-10"><img src="op10.jpg" class="foto-alvo"><span class="nome-alvo">pdf</span></div>
+                                <div class="item-alvo alvo-pos-10"><img src="op10.jpg" class="foto-alvo"><span class="nome-alvo">pedófilos</span></div>
 
                                 <div class="item-alvo alvo-pos-11"><img src="op11.jpg" class="foto-alvo"><span class="nome-alvo">Presidiário</span></div>
 
@@ -477,18 +486,12 @@
 
                     </p>
 
-                </section> 
-
-                <div id="audio-container"></div>
-            </div>
-        </main>
-
-        <aside class="ads-lateral">
-            <div class="ad-box">ANÚNCIE AQUI SUA PÀGINA, ENTRE EM CONTATO @VARIASCAPI</div>
+                </section> <div id="audio-container"></div>
+            </div> </main> <aside class="ads-lateral">
+            <div class="ad-box">ANÚNCIE AQUI SUA PÁGINA, ENTRE EM CONTATO @VARIASCAPI</div>
         </aside>
-    </div>
 
-    <script>
+    </div> <script>
         function ativarSite() {
             document.getElementById('setup-inicial').style.display = 'none';
             document.getElementById('conteudo-patriota').style.display = 'block';
