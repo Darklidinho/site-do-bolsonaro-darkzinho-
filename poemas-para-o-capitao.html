@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Poemas para o Capitão - Mural Patriota</title>
     <link rel="stylesheet" href="style.css">
@@ -14,17 +15,22 @@
             margin-top: 20px;
             min-height: 400px;
         }
-        #login-secao, #form-carta {
+        #login-secao, #form-carta, #aviso-enviado {
             background: #1a1a1a;
             padding: 20px;
             border: 1px dashed #FFD700;
             margin-bottom: 30px;
         }
-        #form-carta { display: none; }
+        #form-carta, #aviso-enviado { display: none; }
+        
         .input-patriota, textarea {
             padding: 10px; background: #000; border: 1px solid #FFD700;
             color: #fff; margin-bottom: 10px; width: 100%; box-sizing: border-box;
         }
+        
+        .char-count { font-size: 12px; color: #FFD700; text-align: right; margin-top: -5px; margin-bottom: 10px; }
+        #tempo-restante { color: #00FF00; font-weight: bold; }
+
         .cartinha {
             background: #080808; border-bottom: 1px solid #333;
             padding: 20px; margin-bottom: 10px; text-align: left;
@@ -34,7 +40,6 @@
         .autor-nome { color: #FFD700; font-weight: bold; font-size: 14px; }
         .sufixo-obrigatorio { color: #00FF00; font-style: italic; display: block; margin-top: 10px; }
         
-        /* --- NOVO: ESTILOS DO PAINEL DE ÁUDIO --- */
         .painel-audio {
             background-color: #111;
             border: 1px solid #FFD700;
@@ -44,23 +49,8 @@
             border-radius: 5px;
             text-align: left;
         }
-        .painel-audio span {
-            color: #FFD700;
-            font-weight: bold;
-            margin-right: 15px;
-            font-family: sans-serif;
-            font-size: 14px;
-        }
-        .btn-audio {
-            background-color: #333;
-            color: #fff;
-            border: 1px solid #555;
-            padding: 5px 15px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-right: 5px;
-            transition: 0.2s;
-        }
+        .painel-audio span { color: #FFD700; font-weight: bold; margin-right: 15px; font-family: sans-serif; font-size: 14px; }
+        .btn-audio { background-color: #333; color: #fff; border: 1px solid #555; padding: 5px 15px; cursor: pointer; font-weight: bold; margin-right: 5px; transition: 0.2s; }
         .btn-audio:hover { background-color: #006400; border-color: #00FF00; }
         .btn-audio.stop:hover { background-color: #8B0000; border-color: #ff0000; }
 
@@ -71,7 +61,7 @@
     <header><h1>POEMAS PARA O CAPITÃO</h1></header>
     <nav>
         <ul>
-             <li><a href="index.html" class="home-link">🇧🇷<br><span>home</span></a></li>
+            <li><a href="index.html" class="home-link">🇧🇷<br><span>home</span></a></li>
             <li><a href="bolsonaro-hipotetico.html">Bolsonaro hipotético</a></li>
             <li><a href="roleta-conservadora.html">roleta conservadora</a></li>
             <li><a href="poemas-para-o-capitao.html">poemas para o capitão</a></li>
@@ -95,7 +85,8 @@
             </div>
 
             <div id="form-carta">
-                <textarea id="texto-poema" placeholder="Escreva sua mensagem..."></textarea>
+                <textarea id="texto-poema" maxlength="500" placeholder="Escreva sua mensagem... (máx 500 caracteres)"></textarea>
+                <div class="char-count" id="contador">0 / 500</div>
                 <select id="sufixo-escolhido" class="input-patriota">
                     <option value="Para meu capitão">Para meu capitão</option>
                     <option value="Para o Mito">Para o Mito</option>
@@ -109,6 +100,11 @@
                 <button onclick="postarCarta()" class="btn-patriota">Publicar Cartinha</button>
             </div>
 
+            <div id="aviso-enviado">
+                <h3 style="color: #FFD700;">AGUARDE, PATRIOTA!</h3>
+                <p>Você já enviou um poema recentemente. Volte em: <span id="tempo-restante">--:--:--</span></p>
+            </div>
+
             <div id="mural" class="mural-container">
                 <p style="color: #666;">Carregando mensagens do arquivo secreto...</p>
             </div>
@@ -117,18 +113,23 @@
         </main>
     </div>
 
-   <script>
+<script>
     const _supabaseUrl = 'https://pnrewsvdblzecidzffpa.supabase.co'; 
     const _supabaseKey = 'sb_publishable_wF4_-YC3iPy1Hnd2zwG6zQ_2bxMli8-';
     const supabaseClient = supabase.createClient(_supabaseUrl, _supabaseKey);
 
     let nomeUsuario = "";
+    const TEMPO_ESPERA = 24 * 60 * 60 * 1000; // 24 horas em milissegundos
 
-    // --- FUNÇÕES DE ÁUDIO ---
+    const textarea = document.getElementById('texto-poema');
+    const contador = document.getElementById('contador');
+    textarea.addEventListener('input', () => {
+        contador.innerText = `${textarea.value.length} / 500`;
+    });
+
     function playMusica() {
         const container = document.getElementById('audio-container');
         if (container.innerHTML === "") {
-            // Coloquei a trilha épica do Bolsonaro Hipotético, pode trocar o ID se quiser outra
             container.innerHTML = `<iframe width="1" height="1" src="https://www.youtube.com/embed/365ile92GOU?autoplay=1" frameborder="0" allow="autoplay" style="display:none;"></iframe>`;
         }
     }
@@ -137,19 +138,61 @@
         document.getElementById('audio-container').innerHTML = "";
     }
 
+    function atualizarCronometro(dataUltimoEnvio) {
+        const spanTempo = document.getElementById('tempo-restante');
+        
+        const atualizar = () => {
+            const agora = Date.now();
+            const decorrido = agora - dataUltimoEnvio;
+            const restante = TEMPO_ESPERA - decorrido;
+
+            if (restante <= 0) {
+                location.reload(); // Recarrega a página quando o tempo acaba
+                return;
+            }
+
+            const horas = Math.floor(restante / (1000 * 60 * 60));
+            const minutos = Math.floor((restante % (1000 * 60 * 60)) / (1000 * 60));
+            const segundos = Math.floor((restante % (1000 * 60)) / 1000);
+
+            spanTempo.innerText = `${horas}h ${minutos}m ${segundos}s`;
+        };
+
+        atualizar();
+        setInterval(atualizar, 1000);
+    }
+
     function fazerLogin() {
         const nome = document.getElementById('usuario-nome').value;
         if (nome.trim()) {
             nomeUsuario = nome;
             document.getElementById('login-secao').style.display = 'none';
-            document.getElementById('form-carta').style.display = 'block';
-            playMusica(); // Toca música automaticamente ao entrar no mural
+            
+            const ultimoEnvio = localStorage.getItem('ultimoEnvioData');
+            const agora = Date.now();
+
+            if (ultimoEnvio && (agora - ultimoEnvio < TEMPO_ESPERA)) {
+                document.getElementById('aviso-enviado').style.display = 'block';
+                atualizarCronometro(parseInt(ultimoEnvio));
+            } else {
+                document.getElementById('form-carta').style.display = 'block';
+            }
+            
+            playMusica();
         } else {
             alert("Digite seu nome de patriota!");
         }
     }
 
     async function postarCarta() {
+        const ultimoEnvio = localStorage.getItem('ultimoEnvioData');
+        const agora = Date.now();
+
+        if (ultimoEnvio && (agora - ultimoEnvio < TEMPO_ESPERA)) {
+            alert("Aguarde 24 horas entre cada poema!");
+            return;
+        }
+
         const texto = document.getElementById('texto-poema').value;
         const sufixo = document.getElementById('sufixo-escolhido').value;
         if (!texto.trim()) return;
@@ -160,7 +203,10 @@
 
         if (error) alert("Erro ao enviar: " + error.message);
         else {
-            document.getElementById('texto-poema').value = "";
+            localStorage.setItem('ultimoEnvioData', Date.now().toString());
+            document.getElementById('form-carta').style.display = 'none';
+            document.getElementById('aviso-enviado').style.display = 'block';
+            atualizarCronometro(Date.now());
             carregarCartas();
         }
     }
