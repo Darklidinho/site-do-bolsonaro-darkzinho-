@@ -1,4 +1,3 @@
-
 /* --- ESTILOS GERAIS --- */
 body {
     background-color: #000;
@@ -6,14 +5,15 @@ body {
     font-family: 'Arial Black', sans-serif;
     margin: 0;
     text-align: center;
-    overflow-x: hidden; /* Evita barra de rolagem lateral no celular */
+    overflow-x: hidden; /* Essencial para evitar que o site dance pro lado no mobile */
 }
 
 header h1 {
-    font-size: clamp(40px, 8vw, 80px); /* Ajusta o tamanho conforme a tela */
+    font-size: clamp(35px, 8vw, 80px);
     color: #FFD700;
     text-shadow: 4px 4px #006400;
     margin: 20px 0;
+    padding: 0 10px;
 }
 
 /* --- MENU DE NAVEGAÇÃO --- */
@@ -23,25 +23,17 @@ nav {
     border-bottom: 4px solid #FFD700;
 }
 
-/* --- MENU DE NAVEGAÇÃO --- */
-nav {
-    background: #111;
-    border-top: 4px solid #006400;
-    border-bottom: 4px solid #FFD700;
-}
-
-/* Define como a lista se comporta no PC (Tudo na mesma linha) */
 nav ul {
     display: flex;
     justify-content: center;
     align-items: center;
-    list-style: none; /* Remove os pontinhos brancos irritantes */
+    list-style: none; /* Remove bolinhas brancas */
     padding: 0;
     margin: 0;
 }
 
 nav li {
-    flex: 1; /* Faz todos os botões terem exatamente a mesma largura */
+    flex: 1;
 }
 
 nav a {
@@ -64,56 +56,39 @@ nav a:hover {
     color: #FFD700;
 }
 
-/* --- RESPONSIVIDADE DO MENU E PIX (APENAS MOBILE) --- */
-@media (max-width: 900px) {
-    nav ul {
-        flex-wrap: wrap; /* Agora sim: permite que os botões caiam de linha */
-    }
-
-    nav li {
-        flex: 1 1 45%; /* Transforma em 2 botões por linha no celular */
-        border-bottom: 1px solid #333; /* Dá uma linha discreta para separar no mobile */
-    }
-
-    /* --- CORREÇÃO DA CAIXA DO PIX E DO QR CODE --- */
-    img {
-        max-width: 100%; /* Garante que a imagem do QR Code não vaze a tela */
-        height: auto;
-    }
-
-    .layout-container, 
-    .content-area { 
-        max-width: 100%;
-        box-sizing: border-box; 
-    }
-}
-/* --- LAYOUT DE 3 COLUNAS (Otimizado) --- */
+/* --- LAYOUT PRINCIPAL --- */
 .layout-container {
     display: flex;
     justify-content: center;
+    align-items: flex-start;
     padding: 20px;
     gap: 15px;
     max-width: 1400px;
     margin: 0 auto;
+    box-sizing: border-box;
 }
 
 .content-area {
-    flex: 2; /* Área central ganha o dobro de espaço das laterais */
-    min-width: 320px;
+    flex: 2;
+    min-width: 0; /* Impede que o conteúdo estoure a div no mobile */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-/* --- COLUNAS DE ANÚNCIO (Unificadas) --- */
+/* --- COLUNAS DE ANÚNCIO (PC) --- */
 .ads-lateral {
     width: 160px;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    flex-shrink: 0;
 }
 
 .ad-box {
     width: 100%;
     height: 600px;
-    border: 2px dashed #FFD700; /* Amarelo para ficar visível no fundo preto */
+    border: 2px dashed #FFD700;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -134,9 +109,10 @@ nav a:hover {
     font-weight: bold;
     cursor: pointer;
     text-transform: uppercase;
-    margin: 20px 0;
-    width: 100%;
+    margin: 20px auto;
+    width: 90%;
     max-width: 400px;
+    display: block;
 }
 
 .btn-patriota:hover {
@@ -144,18 +120,49 @@ nav a:hover {
     color: #006400;
 }
 
-.titulo-verde { color: #00FF00; font-size: clamp(30px, 5vw, 45px); }
-.img-patriota { width: 100%; max-width: 600px; border: 5px solid #006400; margin: 20px 0; }
+.titulo-verde { 
+    color: #00FF00; 
+    font-size: clamp(25px, 5vw, 45px); 
+    margin: 20px 10px;
+}
 
-/* --- AJUSTE PARA CELULAR (ANDROID/IPHONE) --- */
-@media (max-width: 1024px) {
+.img-patriota { 
+    width: 95%; 
+    max-width: 600px; 
+    border: 5px solid #006400; 
+    margin: 20px auto; 
+    height: auto;
+}
+
+/* --- AJUSTES EXCLUSIVOS PARA CELULAR --- */
+@media (max-width: 900px) {
     .ads-lateral {
-        display: none; /* Esconde anúncios laterais em telas menores */
+        display: none !important; /* Remove anúncios laterais para dar espaço */
     }
+
     .layout-container {
+        display: block; /* Empilha tudo verticalmente */
         padding: 10px;
     }
+
+    /* Menu quebra em 2 colunas no celular */
+    nav ul {
+        flex-wrap: wrap;
+    }
+
+    nav li {
+        flex: 1 1 45%;
+        border-bottom: 1px solid #333;
+    }
+
     header h1 {
-        font-size: 35px;
+        font-size: 30px;
+    }
+
+    /* Garante que imagens e QR Codes não fujam da tela */
+    img, .ad-box {
+        max-width: 100% !important;
+        height: auto;
+        box-sizing: border-box;
     }
 }
