@@ -4,6 +4,7 @@ body {
     color: #fff;
     font-family: 'Arial Black', sans-serif;
     margin: 0;
+    padding: 0; /* Removendo qualquer margem fantasma */
     text-align: center;
     overflow-x: hidden;
     width: 100%;
@@ -58,40 +59,43 @@ nav a:hover {
     color: #FFD700;
 }
 
-/* --- LAYOUT PRINCIPAL (O SEGREDO ESTÁ AQUI) --- */
+/* --- LAYOUT PRINCIPAL (À PROVA DE BALAS) --- */
 .layout-container {
     display: flex;
-    justify-content: center; /* Centraliza o bloco principal no PC */
+    flex-direction: row; /* Força lado a lado no PC */
+    justify-content: center;
     align-items: flex-start;
     padding: 20px;
-    gap: 20px;
-    width: 100%; /* Garante que use a tela toda */
-    max-width: 100%; 
+    gap: 30px; /* Espaço entre o texto central e os anúncios */
+    width: 100%;
+    max-width: 1400px; /* Limite para telas gigantes */
     margin: 0 auto;
     box-sizing: border-box;
 }
 
 .content-area {
-    flex: 1; /* Faz o meio crescer e ocupar o espaço disponível */
-    max-width: 800px; /* Mas não deixa ficar largo demais no monitor ultra-wide */
-    min-width: 0; 
+    flex: 1 1 auto; /* Deixa o meio crescer, mas respeitando o limite */
+    width: 100%;
+    max-width: 800px; /* Largura perfeita para não cansar a leitura no PC */
     display: flex;
     flex-direction: column;
     align-items: center;
+    text-align: center; /* Garante que os parágrafos não fiquem alinhados à esquerda */
 }
 
 /* --- COLUNAS DE ANÚNCIO (PC) --- */
 .ads-lateral {
-    width: 160px; /* Tamanho padrão de banners laterais */
+    width: 160px;
+    min-width: 160px; /* Trava as colunas para não serem esmagadas */
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    flex-shrink: 0; /* Não deixa a coluna esmagar */
+    gap: 15px;
+    flex-shrink: 0; 
 }
 
 .ad-box {
     width: 100%;
-    height: 600px;
+    height: 600px; /* Formato "Arranha-céu" no PC */
     border: 2px dashed #FFD700;
     display: flex;
     align-items: center;
@@ -101,6 +105,7 @@ nav a:hover {
     font-size: 12px;
     text-transform: uppercase;
     background: #080808;
+    box-sizing: border-box;
 }
 
 /* --- COMPONENTES --- */
@@ -138,22 +143,33 @@ nav a:hover {
     height: auto;
 }
 
-/* --- AJUSTES PARA CELULAR --- */
+/* --- AJUSTES PARA CELULAR (O NOVO TRUQUE ESTÁ AQUI) --- */
 @media (max-width: 1000px) {
-    .ads-lateral {
-        display: none !important; /* Mata as colunas no mobile */
-    }
-
     .layout-container {
-        display: block; /* No mobile, vira tudo uma coluna só centralizada */
-        padding: 10px;
-        width: 100%;
+        flex-direction: column; /* Empilha tudo: Conteúdo primeiro, Anúncios embaixo */
+        align-items: center;
+        padding: 15px 10px;
+        gap: 20px;
     }
 
     .content-area {
-        width: 100%;
-        max-width: 100%; /* Agora ele "desgruda" das paredes e usa o espaço todo */
-        margin: 0;
+        max-width: 100%; /* Desgruda totalmente o texto e deixa ocupar a tela */
+    }
+
+    /* Transformando os anúncios no Mobile */
+    .ads-lateral {
+        width: 100%; /* Ocupa a largura total da tela embaixo do texto */
+        flex-direction: row; /* Coloca os anúncios lado a lado se couber */
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .ad-box {
+        width: 100%; 
+        max-width: 350px; /* Tamanho clássico de banner de celular */
+        height: 100px; /* Vira um banner horizontal baixinho! */
+        min-height: 100px;
     }
 
     /* Ajuste do Menu Mobile */
@@ -163,14 +179,15 @@ nav a:hover {
 
     nav li {
         flex: 1 1 45%;
+        border-bottom: 1px solid #333;
     }
 
     header h1 {
         font-size: 30px;
     }
 
-    img, .ad-box {
+    img, .img-patriota {
         max-width: 100% !important;
-        height: auto;
+        box-sizing: border-box;
     }
 }
