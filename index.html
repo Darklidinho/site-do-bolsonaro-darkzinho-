@@ -39,47 +39,22 @@
             align-items: center; 
         }
 
-        .container-alvo-imagem {
-            margin-top: 50px;
-            padding: 40px 10px;
-            text-align: center;
-            background-color: #080808;
-            border-top: 3px solid #333;
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .alvo-zoom-box {
-            position: relative;
-            width: 90%;
-            max-width: 700px;
-            margin: 0 auto;
-            border: 5px solid #333;
-            border-radius: 8px;
-            overflow: hidden;
-            cursor: zoom-in;
-            background-color: #000;
-        }
-
-        .alvo-zoom-box img {
-            width: 100%;
-            height: auto;
-            display: block;
-            transition: transform 0.1s ease-out;
-        }
-
-        .alvo-zoom-box:hover img {
-            transform: scale(2);
-        }
-
         .texto-satira {
-            font-size: 14px;
-            color: #777;
-            font-style: italic;
-            margin-top: 30px;
-            max-width: 600px;
-            display: inline-block;
-        }
+        font-size: 14px;
+        color: #777;
+        font-style: italic;
+        margin-top: 30px;
+        max-width: 600px;
+        display: inline-block;
+    }
+
+    /* ADICIONE ISSO AQUI: */
+    .container-alvo-imagem img {
+        display: block;
+        margin: 20px auto; 
+        max-width: 100%;
+        height: auto;
+    }
     </style>
 </head>
 <body>
@@ -164,12 +139,11 @@
             </div>
 
             <section class="container-alvo-imagem">
-                <h3 class="titulo-verde" style="font-size: 30px;">INIMIGOS DA PÁTRIA</h3>
-                <div class="alvo-zoom-box" id="alvoZoom">
-                    <img src="alvo.jpg" alt="Alvo Completo dos Inimigos">
-                </div>
-                <p class="texto-satira">Atenção: A imagem acima é uma representação satírica e humorística, se você é esquerdista e continua chorando, saiba que choro de viado e puta Deus não escuta.</p>
-            </section> 
+    <h3 class="titulo-verde" style="font-size: 30px;">INIMIGOS DA PÁTRIA</h3>
+    <p><b>alvos da operação Ronnie Lessa 2.0</b></p>
+    <img src="alvo.jpg" alt="Alvo Completo dos Inimigos">
+    <p class="texto-satira">Atenção: A imagem acima é uma representação satírica e humorística, se você é esquerdista e continua chorando, saiba que choro de viado e puta Deus não escuta.</p>
+</section>
 
             <div id="audio-container"></div>
         </div> 
@@ -195,19 +169,7 @@
         document.getElementById('audio-container').innerHTML = "";
     }
 
-    const zoomBox = document.getElementById('alvoZoom');
-    const zoomImg = zoomBox.querySelector('img');
 
-    zoomBox.addEventListener('mousemove', (e) => {
-        const { left, top, width, height } = zoomBox.getBoundingClientRect();
-        const x = ((e.clientX - left) / width) * 100;
-        const y = ((e.clientY - top) / height) * 100;
-        zoomImg.style.transformOrigin = `${x}% ${y}%`;
-    });
-
-    zoomBox.addEventListener('mouseleave', () => {
-        zoomImg.style.transformOrigin = 'center center';
-    });
 </script>
 
 </body>
