@@ -1,15 +1,41 @@
-/* --- ESTILOS GERAIS --- */
+/* ==========================================
+   1. ESTILOS GERAIS (Universal)
+   ========================================== */
 body {
     background-color: #000;
     color: #fff;
     font-family: 'Arial Black', sans-serif;
     margin: 0;
-    padding: 0; /* Removendo qualquer margem fantasma */
     text-align: center;
     overflow-x: hidden;
     width: 100%;
 }
 
+/* Estrutura de Layout Padrão */
+.layout-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.content-area {
+    flex: 1;
+    min-width: 0; 
+    max-width: 850px; /* Largura ideal para leitura */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* ==========================================
+   2. HEADER E MENU (Universal)
+   ========================================== */
 header h1 {
     font-size: clamp(35px, 8vw, 80px);
     color: #FFD700;
@@ -18,7 +44,6 @@ header h1 {
     padding: 0 10px;
 }
 
-/* --- MENU DE NAVEGAÇÃO --- */
 nav {
     background: #111;
     border-top: 4px solid #006400;
@@ -35,9 +60,7 @@ nav ul {
     margin: 0;
 }
 
-nav li {
-    flex: 1;
-}
+nav li { flex: 1; }
 
 nav a {
     text-decoration: none;
@@ -59,56 +82,9 @@ nav a:hover {
     color: #FFD700;
 }
 
-/* --- LAYOUT PRINCIPAL (À PROVA DE BALAS) --- */
-.layout-container {
-    display: flex;
-    flex-direction: row; /* Força lado a lado no PC */
-    justify-content: center;
-    align-items: flex-start;
-    padding: 20px;
-    gap: 30px; /* Espaço entre o texto central e os anúncios */
-    width: 100%;
-    max-width: 1400px; /* Limite para telas gigantes */
-    margin: 0 auto;
-    box-sizing: border-box;
-}
-
-.content-area {
-    flex: 1 1 auto; /* Deixa o meio crescer, mas respeitando o limite */
-    width: 100%;
-    max-width: 800px; /* Largura perfeita para não cansar a leitura no PC */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center; /* Garante que os parágrafos não fiquem alinhados à esquerda */
-}
-
-/* --- COLUNAS DE ANÚNCIO (PC) --- */
-.ads-lateral {
-    width: 160px;
-    min-width: 160px; /* Trava as colunas para não serem esmagadas */
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    flex-shrink: 0; 
-}
-
-.ad-box {
-    width: 100%;
-    height: 600px; /* Formato "Arranha-céu" no PC */
-    border: 2px dashed #FFD700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: #FFD700;
-    font-size: 12px;
-    text-transform: uppercase;
-    background: #080808;
-    box-sizing: border-box;
-}
-
-/* --- COMPONENTES --- */
+/* ==========================================
+   3. COMPONENTES PATRIOTA (Banners, Botões, etc.)
+   ========================================== */
 .btn-patriota {
     background-color: #006400;
     color: #FFD700;
@@ -143,51 +119,83 @@ nav a:hover {
     height: auto;
 }
 
-/* --- AJUSTES PARA CELULAR (O NOVO TRUQUE ESTÁ AQUI) --- */
-@media (max-width: 1000px) {
+/* Container de Vídeo 16:9 */
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%;
+    height: 0;
+    overflow: hidden;
+    width: 100%;
+    max-width: 640px;
+    margin: 30px auto;
+    border: 3px solid #FFD700;
+    border-radius: 8px;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+}
+
+/* ==========================================
+   4. ANÚNCIOS (Lado a Lado no PC)
+   ========================================== */
+.ads-lateral {
+    width: 160px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    flex-shrink: 0;
+}
+
+.ad-box {
+    width: 100%;
+    height: 600px;
+    border: 2px dashed #FFD700;
+    background: #080808;
+    color: #FFD700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    font-size: 11px;
+    text-transform: uppercase;
+    box-sizing: border-box;
+}
+
+/* ==========================================
+   5. RESPONSIVIDADE (Ajuste Mobile)
+   ========================================== */
+@media (max-width: 1100px) {
     .layout-container {
-        flex-direction: column; /* Empilha tudo: Conteúdo primeiro, Anúncios embaixo */
+        flex-direction: column;
         align-items: center;
-        padding: 15px 10px;
-        gap: 20px;
+        padding: 10px;
     }
 
     .content-area {
-        max-width: 100%; /* Desgruda totalmente o texto e deixa ocupar a tela */
+        width: 100%;
+        max-width: 100%;
     }
 
-    /* Transformando os anúncios no Mobile */
+    /* Anúncios viram banners horizontais embaixo do conteúdo */
     .ads-lateral {
-        width: 100%; /* Ocupa a largura total da tela embaixo do texto */
-        flex-direction: row; /* Coloca os anúncios lado a lado se couber */
+        width: 100%;
+        flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-        gap: 10px;
+        margin-top: 30px;
     }
 
     .ad-box {
-        width: 100%; 
-        max-width: 350px; /* Tamanho clássico de banner de celular */
-        height: 100px; /* Vira um banner horizontal baixinho! */
-        min-height: 100px;
+        width: 320px;
+        height: 100px;
     }
 
-    /* Ajuste do Menu Mobile */
-    nav ul {
-        flex-wrap: wrap;
-    }
-
-    nav li {
-        flex: 1 1 45%;
-        border-bottom: 1px solid #333;
-    }
-
-    header h1 {
-        font-size: 30px;
-    }
-
-    img, .img-patriota {
-        max-width: 100% !important;
-        box-sizing: border-box;
-    }
+    /* Ajuste do Menu para Celular */
+    nav ul { flex-wrap: wrap; }
+    nav li { flex: 1 1 45%; border-bottom: 1px solid #333; }
+    
+    header h1 { font-size: 30px; }
 }
