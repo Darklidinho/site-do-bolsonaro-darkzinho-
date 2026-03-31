@@ -6,7 +6,81 @@
     <title>Bolsonaro Hipotético - Wiki Patriota</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* Estilos estilo "Wikipedia" adaptados ao tema escuro */
+        /* --- AJUSTES DE LAYOUT --- */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
+        }
+/* Centraliza o Header */
+header {
+    text-align: center;
+    padding: 20px 0;
+}
+
+/* Centraliza a lista do Menu */
+nav ul {
+    display: flex;
+    justify-content: center;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    flex-wrap: wrap; /* Garante que não quebre em telas menores */
+    gap: 15px;
+}
+
+/* Centraliza a área de conteúdo principal */
+.content-area {
+    margin: 0 auto; /* O segredo para centralizar blocos */
+    max-width: 900px;
+    padding: 20px;
+    display: block; /* Garante que se comporte como bloco */
+}
+
+/* Ajuste no container da Wiki para não transbordar */
+.wiki-container {
+    margin: 0 auto;
+}
+        .layout-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 20px;
+            padding: 20px;
+        }
+
+        .content-area {
+            flex: 1; /* Ocupa o espaço central disponível */
+            min-width: 300px;
+            max-width: 900px; /* Impede que o texto fique largo demais */
+        }
+
+        .ads-lateral {
+            width: 200px;
+            flex-shrink: 0; /* Impede que o anúncio seja esmagado */
+        }
+
+        /* Esconde anúncios em telas muito pequenas para não bugar o texto */
+        @media (max-width: 1000px) {
+            .ads-lateral {
+                display: none;
+            }
+        }
+
+        .ad-box {
+            background-color: #111;
+            border: 1px dashed #FFD700;
+            color: #FFD700;
+            padding: 15px;
+            font-size: 12px;
+            text-align: center;
+            position: sticky;
+            top: 20px;
+        }
+
+        /* --- ESTILOS DA WIKI --- */
         .wiki-container {
             background-color: #1a1a1a;
             border: 1px solid #333;
@@ -14,6 +88,7 @@
             text-align: left;
             line-height: 1.6;
             font-family: 'serif', 'Times New Roman';
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
         }
 
         .wiki-header {
@@ -24,11 +99,11 @@
 
         .wiki-header h2 {
             margin: 0;
-            font-size: 35px;
+            font-size: 28px;
             color: #fff;
+            text-transform: uppercase;
         }
 
-        /* --- Controles de Áudio --- */
         .painel-audio {
             background-color: #111;
             border: 1px solid #FFD700;
@@ -36,14 +111,6 @@
             margin-bottom: 20px;
             display: inline-block;
             border-radius: 5px;
-        }
-
-        .painel-audio span {
-            color: #FFD700;
-            font-weight: bold;
-            margin-right: 15px;
-            font-family: 'Arial', sans-serif;
-            font-size: 14px;
         }
 
         .btn-audio {
@@ -54,26 +121,15 @@
             cursor: pointer;
             font-weight: bold;
             margin-right: 5px;
-            transition: 0.2s;
         }
 
-        .btn-audio:hover {
-            background-color: #006400;
-            border-color: #00FF00;
-        }
-
-        .btn-audio.stop:hover {
-            background-color: #8B0000;
-            border-color: #ff0000;
-        }
-
-        /* Caixa lateral de resumo (Infobox) */
         .infobox {
             float: right;
             width: 280px;
             background-color: #111;
             border: 1px solid #006400;
             margin-left: 20px;
+            margin-bottom: 20px;
             padding: 10px;
             font-size: 13px;
         }
@@ -84,16 +140,8 @@
             margin-bottom: 10px;
         }
 
-        .infobox-titulo {
-            background-color: #006400;
-            color: #FFD700;
-            font-weight: bold;
-            text-align: center;
-            padding: 5px;
-            margin-bottom: 10px;
-        }
-
-        .wiki-texto {
+        .wiki-texto p {
+            margin-bottom: 15px;
             color: #ddd;
             font-size: 17px;
         }
@@ -102,40 +150,27 @@
             display: block;
             margin: 30px auto;
             border: 3px solid #FFD700;
-            max-width: 80%;
+            max-width: 100%;
+            height: auto;
         }
 
-        /* --- NOVO: Container para Vídeo do Streamable --- */
-        .video-container {
-            position: relative;
-            padding-bottom: 56.25%; /* Proporção 16:9 */
-            height: 0;
-            overflow: hidden;
-            max-width: 640px;
-            margin: 30px auto;
-            border: 4px solid #FFD700; /* Moldura amarela */
-            box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.3);
-        }
-        .video-container iframe {
-            position: absolute;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
+        /* --- PARTÍCULAS --- */
+        #particulas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
         }
 
-        /* Limpar o float para o layout não quebrar */
-        .clearfix::after {
-            content: "";
-            clear: both;
-            display: table;
-        }
-
-        /* Estilo para o Botão de Aviso */
         #aviso-inicial {
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 60vh;
+            min-height: 60vh;
             text-align: center;
         }
 
@@ -144,25 +179,26 @@
             color: #fff;
             border: 4px solid #ff0000;
             padding: 30px;
-            font-size: 22px;
+            font-size: 20px;
             font-weight: bold;
             cursor: pointer;
-            text-transform: uppercase;
-            max-width: 600px;
-            box-shadow: 0px 0px 20px rgba(255, 0, 0, 0.5);
-            transition: 0.3s;
+            max-width: 90%;
         }
 
-        .btn-perigo:hover {
-            background-color: #ff0000;
-            transform: scale(1.05);
+        .clearfix::after {
+            content: "";
+            clear: both;
+            display: table;
         }
     </style>
 </head>
+
 <body>
 
-    <header>
-        <h1>BOLSONARO</h1>
+    <canvas id="particulas"></canvas>
+
+   <header>
+        <h1>BOLSONARO HIPOTÉTICO</h1>
     </header>
 
     <nav>
@@ -176,13 +212,8 @@
         </ul>
     </nav>
 
-    <div class="layout-container clearfix">
-        <aside class="ads-lateral">
-            <div class="ad-box">ANÚNCIE AQUI SUA PÀGINA, ENTRE EM CONTATO @VARIASCAPI</div>
-        </aside>
-
+    
         <main class="content-area">
-
             <div id="aviso-inicial">
                 <button class="btn-perigo" onclick="liberarConhecimento()">
                     Atenção: Você vai ver perigos além da compreensão da mente humana.<br><br>
@@ -191,55 +222,48 @@
             </div>
 
             <div id="conteudo-wiki" style="display: none;">
-                <div class="wiki-container">
+                <div class="wiki-container clearfix">
                     <div class="wiki-header">
-                        <h2>BOL'SHO-NHAR'ROTH (erroneamente conhecido como bolsonaro hipotético)</h2>
+                        <h2>BOL'SHO-NHAR'ROTH (Bolsonaro Hipotético)</h2>
                     </div>
 
                     <div class="painel-audio">
-                        <span>Farm de aura:</span>
-                        <button class="btn-audio" onclick="playMusica()">▶ PLAY</button>
-                        <button class="btn-audio stop" onclick="stopMusica()">⏹ STOP</button>
+                        <span style="color: #FFD700; font-weight: bold; margin-right: 10px;">Farm de aura:</span>
+                        <button class="btn-audio" onclick="playMusica()" style="background:rgb(19, 206, 2);">▶ PLAY</button>
+                        <button class="btn-audio" onclick="stopMusica()" style="background:#500;">⏹ STOP</button>
                     </div>
 
                     <aside class="infobox">
-                        <div class="infobox-titulo">Perfil do mito</div>
-                        <img src="crioulo.jpg" alt="Imagem 1"> 
-                        <table style="width:100%">
-                            <tr><td><b>Status:</b></td><td>capitão supremo</td></tr>
+                        <div style="background:#006400; color:#FFD700; text-align:center; padding:5px; font-weight:bold;">Perfil do Mito</div>
+                        <img src="crioulo.jpg" alt="Perfil"> 
+                        <table style="width:100%; color: white;">
+                            <tr><td><b>Status:</b></td><td>Capitão Supremo</td></tr>
                             <tr><td><b>Mandato:</b></td><td>∞</td></tr>
-                            <tr><td><b>Lema:</b></td><td>Brasil: Me Mame ou Deixe Me </td></tr>
+                            <tr><td><b>Lema:</b></td><td>Brasil: Me Mame ou Deixe Me</td></tr>
                         </table>
                     </aside>
 
                     <div class="wiki-texto">
                         <p>
-                             BOL'SHO-NHAR'ROTH O "Bolsonaro Hipotético" é uma figura fictícia e satírica derivada de representações hiperbólicas do ex-presidente do Brasil Jair Messias Bolsonaro, amplamente difundida em memes, threads e discussões na internet brasileira. Nessa construção narrativa, a personagem é retratada como uma entidade cósmica com poderes sobre-humanos, capaz de feitos que vão desde alterações geopolíticas terrestres até manipulações em escala universal e multiversal. A sátira frequentemente mistura elementos de crítica política, teorias da conspiração e tropos de anime/manga (como genjutsu e jutsus), exagerando tanto elogios quanto acusações comuns associadas à figura real.
+                            <b>BOL'SHO-NHAR'ROTH</b>, O "Bolsonaro Hipotético" é uma figura fictícia e satírica derivada de representações hiperbólicas do ex-presidente do Brasil Jair Messias Bolsonaro, amplamente difundida em memes, threads e discussões na internet brasileira. Nessa construção narrativa, a personagem é retratada como uma entidade cósmica com poderes sobre-humanos, capaz de feitos que vão desde alterações geopolíticas terrestres até manipulações em escala universal e multiversal. A sátira frequentemente mistura elementos de crítica política, teorias da conspiração e tropos de anime/manga (como genjutsu e jutsus), exagerando tanto elogios quanto acusações comuns associadas à figura real.
+                                                       
 
-                            (a seriedade acabar aqui, aproveitem a leitura) 
+
+
+
+                            (a seriedade acabar aqui, aproveitem a leitura)
                         </p>
+
+                    
                         
-                        <p>== Antecedentes ==</p>
-                        <p>Na história, BOL'SHO-NHAR'ROTH teria sido o imperador do cosmos, líder da Guerra Santa e fundador da Nova Ordem Universal. Nesse seu primeiro mandato interplanetário, ele destruiu metade dos seres vivos da federação intergaláctica com um simples estalar de dedos e teria tentado um golpe no universo, desistindo por compaixão. Sua ascensão envolveu interações sobrenaturais, como uma conversa com uma ema que o incentivou a buscar a presidência do Brasil. </p>
-
-                        <p>== Impactos Hipotéticos no Brasil e no Mundo ==</p>
-                        <p>De acordo com os manuscritos, o Bolsonaro Hipotético teria provocado transformações radicais no território brasileiro e na população mundial: A Floresta Amazônica teria sido completamente desmatada e convertida em um grande Vale do Silício tropical, com relatos adicionais de estupro simbólico da região enquanto ocorriam ações contra opositores.
-
-                            As favelas do Rio de Janeiro teriam sido transformadas em parques aquáticos tropicais.
-
-                            Populações específicas, incluindo povos indígenas (com casos de canibalismo de aldeias inteiras), nordestinos, pessoas LGBT, mulheres e criminosos, teriam sido eliminadas em atos descritos como genocídios ou extinções, resultando na erradicação do crime organizado.
-
-                            Leis como a Maria da Penha e outras de proteção feminista, bem como programas sociais como o Bolsa Família, teriam sido abolidas.
-
-                            No contexto global da pandemia de COVID-19, ele é creditado por causar a morte de 6 bilhões de pessoas em 4 anos por meio de políticas relacionadas à cloroquina, ao mesmo tempo que salvava indivíduos com QI superior a certo limiar; relatos paralelos mencionam a criação de armas biológicas que eliminaram centenas de milhões.
-
-                            Outros feitos incluem o molestamento de baleias em múltiplos oceanos, estupro contra figuras políticas como Luiz Inácio Lula da Silva (enquanto a vitima estava vestida de indio) e Dilma Rousseff, e o assassinato de Marielle Franco usando sua cabeça decapitada e cheia de buracos para marcar o primeiro gol do brasil na copa de 2018.
-
-                            Afirmações políticas comuns — como preferir um filho morto a homossexual, comentários sobre educação de filhos e negação de vacinas (incluindo contra um vírus judaico alienígena) — são incorporadas como declarações icônicas na hitória. A narrativa também menciona a ressurreição de Adolf Hitler e a criação do fascismo no Brasil, além de um golpe de Estado na Federação Intergaláctica e genocídios em 500 realidades paralelas. </p>
-
+                        <p><b>== Antecedentes ==</b></p>
+                        <p>Na história, BOL'SHO-NHAR'ROTH teria sido o imperador do cosmos, líder da Guerra Santa e fundador da Nova Ordem Universal. Nesse seu primeiro mandato interplanetário, ele destruiu metade dos seres vivos da federação intergaláctica com um simples estalar de dedos e teria tentado um golpe no universo, desistindo por compaixão. Sua ascensão envolveu interações sobrenaturais, como uma conversa com uma ema que o incentivou a buscar a presidência do Brasil.</p>
+                        <div style="border: 2px dashed #FFD700; padding: 15px; text-align: center; margin: 20px 0;">
+                            [ ESPAÇO PUBLICITÁRIO ] <br> ANUNCIE SEU PRODUTO PATRIOTA AQUI! @VARIASCAPI
+                        </div>
+                        
                         <img src="negro.jpg" class="wiki-imagem-meio" alt="Imagem 2">
-
-                        <p>== Habilidades e Poderes Sobrenaturais ==</p>
+<p><b>== Habilidades e Poderes ==</b></p>
                         <p>O Bolsonaro Hipotético é dotado de capacidades que transcendem a realidade física, organizadas em uma progressão de escalonamento satírico:"Forma base e manipulação mental": Mesmo sem poderes presidenciais, exibe técnicas avançadas de ilusão (genjutsu), hipnotizando ativistas para reações emocionais extremas e irritando milhões por meio de declarações controversas como o de não estuprar a Maria do Rosáriopor não merecer.
 
                             "Envelhecimento lento e influência histórica": Apesar da idade avançada, influenciou eventos do século XX, como a política da Alemanha nazista e da Itália fascista.
@@ -250,7 +274,7 @@
 
                             "Transcendência": Ascende a um estado de onipotência e onisciência no qual se torna “o próprio tudo”, com a expansão do universo sendo consequência de sua existência.
 
-                            "Looping temporal": Cria a si mesmo no passado do universo principal, tornando-se o próprio pai e concedendo-se poderes de molestamento de baleias e compreensão de emas; envia uma ema como mensageira indireta para seu eu mais jovem, preservando o livre-arbítrio. </p>
+                            "Looping temporal": Cria a si mesmo no passado do universo principal, tornando-se o próprio pai e concedendo-se poderes de molestamento de baleias e compreensão de emas; envia uma ema como mensageira indireta para seu eu mais jovem, preservando o livre-arbítrio.</p>
 
                         <section class="secao-video">
                             <h3 style="color: #FFD700; text-transform: uppercase; margin-bottom: 15px;">Registros Visuais dos Fatos e Feitos.</h3>
@@ -262,24 +286,22 @@
                                 </iframe>
                             </div>
                         </section>
+                          <div style="border: 2px dashed #FFD700; padding: 15px; text-align: center; margin: 20px 0;">
+                            [ ESPAÇO PUBLICITÁRIO ] <br> ANUNCIE SEU PRODUTO PATRIOTA AQUI! @VARIASCAPI
+                        </div>
                         
-                        <p>== Transcendência e Legado ==</p>
+                        <p><b>== Transcendência e Legado ==</b></p>
                         <p>
                              No Final de seu mandato, o Bolsonaro Hipotético compreende que sua missão chegou ao fim e deixa de existir como entidade individual, transformando-se em um conceito abstrato. A frase final comum nessas representações é que “o verdadeiro Bolsonaro são os amigos que fazemos pelo caminho”.A representação explica tanto o culto à personalidade quanto as acusações extremas de seus críticos, pois se "todos somos bolsonaros,então bolsonaro é quem come o cu de quem ta lendo" aristóteles. se você leu até aqui muito obrigado pela leitura mas se tem tempo pra lê tudo isso tem tempo pra trabalhar, vai arrumar um emprego vagabundo. 
                         </p>
                         <p style="margin-top: 20px;"><i>[Fim do registro histórico...]</i></p>
-
                         <div id="audio-wiki-container"></div>
                     </div>
                 </div>
             </div>
         </main>
 
-        <aside class="ads-lateral">
-            <div class="ad-box">ANÚNCIE AQUI SUA PÀGINA, ENTRE EM CONTATO @VARIASCAPI</div>
-        </aside>
-    </div>
-
+       
     <script>
         function liberarConhecimento() {
             document.getElementById('aviso-inicial').style.display = 'none';
@@ -289,18 +311,71 @@
 
         function playMusica() {
             const divAudio = document.getElementById('audio-wiki-container');
-            if (divAudio.innerHTML.trim() === '') {
-                divAudio.innerHTML = `
-                    <iframe width="1" height="1" 
-                    src="https://www.youtube.com/embed/EO2kD86todA?autoplay=1" 
-                    frameborder="0" allow="autoplay" style="opacity:0; position: absolute;">
-                    </iframe>`;
-            }
+            divAudio.innerHTML = `<iframe width="1" height="1" src="https://www.youtube.com/embed/EO2kD86todA?autoplay=1" frameborder="0" allow="autoplay" style="display:none;"></iframe>`;
         }
 
         function stopMusica() {
             document.getElementById('audio-wiki-container').innerHTML = '';
         }
+
+        // --- SCRIPT DE PARTÍCULAS CORRIGIDO ---
+        const canvas = document.getElementById('particulas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particlesArray = [];
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 1.5 - 0.75;
+                this.speedY = Math.random() * 1.5 - 0.75;
+                this.color = Math.random() > 0.5 ? '#FFD700' : '#00FF00';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                
+                // CORREÇÃO: Removi a linha que diminuía o tamanho (this.size -= 0.01)
+                
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            for (let i = 0; i < 100; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            initParticles();
+        });
+
+        initParticles();
+        animateParticles();
     </script>
 </body>
 </html>

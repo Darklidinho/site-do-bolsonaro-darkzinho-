@@ -6,7 +6,83 @@
     <title>Radar Patriota - Automático</title>
     <link rel="stylesheet" href="style.css">
     <style>
-        /* --- ESTILOS DO PAINEL DE ÁUDIO (Padronizado) --- */
+        /* Container das mensagens - fixo e atrás de todo o conteúdo */
+.floating-msg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Garante que você consiga clicar nos botões do site */
+    z-index: -1; /* Coloca atrás do texto e botões */
+    overflow: hidden;
+}
+
+/* Estilo individual de cada mensagem */
+.floating-msg span {
+    position: absolute;
+    white-space: nowrap;
+    color: rgba(255, 255, 255, 0.3); /* Cor sutil para não atrapalhar a leitura */
+    font-family: sans-serif;
+    font-weight: bold;
+    font-size: 18px;
+    
+    
+    /* Aplica a animação usando as variáveis que você criou no HTML */
+    animation: slide var(--dur) linear infinite;
+    animation-delay: var(--delay); /* Opcional: se quiser usar delay via style */
+}
+
+/* Animação que faz atravessar da direita para a esquerda */
+@keyframes slide {
+    from {
+        left: 110%; /* Começa fora da tela à direita */
+    }
+    to {
+        left: -110%; /* Termina fora da tela à esquerda */
+    }
+}
+        /* --- AJUSTES DE CENTRALIZAÇÃO --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #000; /* Fundo preto para combinar */
+            color: white;
+            text-align: center; /* Centraliza elementos inline e textos do topo */
+        }
+
+        header {
+            padding: 20px 0;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        /* Container que limita a largura do site e centraliza */
+        .main-wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .content-area {
+            margin: 0 auto; /* Centraliza o bloco de conteúdo */
+            max-width: 800px; 
+            text-align: left; /* Mantém o texto das notícias legível à esquerda */
+            background-color: #000;
+            padding: 30px;
+            border: 1px solid #000;
+            box-shadow: 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        /* --- ESTILOS DO PAINEL DE ÁUDIO --- */
         .painel-audio {
             background-color: #111;
             border: 1px solid #FFD700;
@@ -20,7 +96,7 @@
             color: #FFD700;
             font-weight: bold;
             margin-right: 15px;
-            font-family: 'Arial', sans-serif;
+            font-family: Arial, sans-serif;
             font-size: 14px;
         }
 
@@ -32,20 +108,12 @@
             cursor: pointer;
             font-weight: bold;
             margin-right: 5px;
-            transition: 0.2s;
         }
 
-        .btn-audio:hover {
-            background-color: #006400;
-            border-color: #00FF00;
-        }
+        .btn-audio:hover { background-color: #006400; }
+        .btn-audio.stop:hover { background-color: #8B0000; }
 
-        .btn-audio.stop:hover {
-            background-color: #8B0000;
-            border-color: #ff0000;
-        }
-
-        /* --- Estilos para os Cards Automáticos --- */
+        /* --- Cards de Notícias --- */
         #lista-noticias {
             display: flex;
             flex-direction: column;
@@ -58,7 +126,6 @@
             border: 2px solid #333;
             border-left: 10px solid #FFD700;
             padding: 15px;
-            text-align: left;
             transition: 0.3s;
             text-decoration: none;
             display: block;
@@ -66,27 +133,36 @@
 
         .card-auto:hover {
             border-color: #00FF00;
-            background-color: #1a1a1a;
+            background-color: #222;
         }
 
         .card-auto h3 {
             margin: 0;
             color: #FFD700;
             font-size: 18px;
-            text-transform: uppercase;
         }
 
         .card-auto p {
             margin: 5px 0;
             color: #ccc;
-            font-size: 13px;
-            font-family: sans-serif;
+            font-size: 14px;
         }
 
         .data-noticia {
-            font-size: 10px;
+            font-size: 11px;
             color: #00FF00;
             font-weight: bold;
+        }
+
+        .ad-in-text {
+            background-color: #111;
+            border: 2px dashed #FFD700;
+            color: #ccc;
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            font-weight: bold;
+            font-size: 12px;
         }
 
         .loading { color: #FFD700; font-style: italic; }
@@ -94,13 +170,29 @@
 </head>
 <body>
 
+  <!-- Mensagens passando (atrás do conteúdo) -->
+  <div class="floating-msg" aria-hidden="true">
+    <!-- lado esquerdo -->
+    <span style="top:8%;  --dur:12s; animation-delay:0s;">E O CAPITÃO DO POVO</span>
+    <span style="top:20%; --dur:15s; animation-delay:6s;">CANALHAS, CANALHAS MIL VEZES</span>
+    <span style="top:35%; --dur:14s; animation-delay:12s;">MITO MITO MITO</span>
+    <span style="top:50%; --dur:13s; animation-delay:18s;">O BRASIL TA QUERENDO O MITO</span>
+    <span style="top:70%; --dur:16s; animation-delay:24s;">TALKEI?</span>
+    <span style="top:90%; --dur:18s; animation-delay:30s; font-size:14px;">eu te amo BOLSONARO ❤️</span>
+    <!-- lado direito -->
+    <span style="top:12%; --dur:11s; animation-delay:3s;">PATRIOTAS, EM FRENTE AO QUARTEL GENERAL</span>
+    <span style="top:28%; --dur:17s; animation-delay:9s;">BRASIL ACIMA DE TUDO</span>
+    <span style="top:45%; --dur:12s; animation-delay:15s;">DEUS ACIMA DE TODOS.</span>
+    <span style="top:65%; --dur:15s; animation-delay:21s;">VOTA VOTA E CONFIRMA 22 É BOLSONARO </span>
+    <span style="top:82%; --dur:19s; animation-delay:27s;">SURFANDO AQUI NAS LAGRIMAS DOS PETISTAS</span>
+  </div>
     <header>
         <h1>RADAR PATRIOTA</h1>
     </header>
 
     <nav>
         <ul>
-            <li><a href="index.html" class="home-link">🇧🇷<br><span>home</span></a></li>
+            <li><a href="index.html">🇧🇷<br>home</a></li>
             <li><a href="bolsonaro-hipotetico.html">Bolsonaro hipotético</a></li>
             <li><a href="roleta-conservadora.html">roleta conservadora</a></li>
             <li><a href="poemas-para-o-capitao.html">poemas para o capitão</a></li>
@@ -109,44 +201,41 @@
         </ul>
     </nav>
 
-    <div class="layout-container">
-        <aside class="ads-lateral">
-            <div class="ad-box">ANÚNCIE AQUI SUA PÀGINA, ENTRE EM CONTATO @VARIASCAPI</div>
-        </aside>
-
+    <div class="main-wrapper">
         <main class="content-area">
-            <h2 class="titulo-verde">NOTÍCIAS EM TEMPO REAL SOBRE MANIFESTAÇÕES DO CAPITÃO</h2>
+            <h2 style="color: #00FF00; border-bottom: 2px solid #FFD700; padding-bottom: 10px; text-align:center;">NOTÍCIAS EM TEMPO REAL SOBRE MANIFESTAÇÕES DO CAPITÃO</h2>
             
-            <div class="painel-audio">
-                <span>Trilha do Patriotismo:</span>
-                <button class="btn-audio" onclick="playMusica()">▶ PLAY</button>
-                <button class="btn-audio stop" onclick="stopMusica()">⏹ STOP</button>
+            <div style="text-align: center;">
+                <div class="painel-audio">
+                    <span>Trilha do Patriotismo:</span>
+                    <button class="btn-audio" onclick="playMusica()">▶ PLAY</button>
+                    <button class="btn-audio stop" onclick="stopMusica()">⏹ STOP</button>
+                </div>
             </div>
 
-            <p>Sincronizado automaticamente com os poderes do mito hipotético.</p>
+            <p style="color: #888; text-align: center;">Sincronizado automaticamente com os poderes do mito hipotético.</p>
+
+            <div class="ad-in-text">
+                [ ESPAÇO PUBLICITÁRIO ] <br> APOIE A CAUSA DOS PATRIOTAS RESENHEIROS. @VARIASCAPI
+            </div>
 
             <div id="lista-noticias">
                 <p class="loading">Buscando atualizações nos portais...</p>
             </div>
 
             <div id="audio-wiki-container"></div>
-        </main>
 
-        <aside class="ads-lateral">
-            <div class="ad-box">ANÚNCIE AQUI SUA PÀGINA, ENTRE EM CONTATO @VARIASCAPI</div>
-        </aside>
+            <div class="ad-in-text">
+                [ ESPAÇO PUBLICITÁRIO ] <br> APOIE A CAUSA DOS PATRIOTAS RESENHEIROS. @VARIASCAPI
+            </div>
+        </main>
     </div>
 
     <script>
-        // Funções de Áudio
         function playMusica() {
             const divAudio = document.getElementById('audio-wiki-container');
             if (divAudio.innerHTML.trim() === '') {
-                divAudio.innerHTML = `
-                    <iframe width="1" height="1" 
-                    src="https://www.youtube.com/embed/nHCmmpwQ0lI?autoplay=1" 
-                    frameborder="0" allow="autoplay" style="opacity:0; position: absolute;">
-                    </iframe>`;
+                divAudio.innerHTML = `<iframe width="1" height="1" src="https://www.youtube.com/embed/nHCmmpwQ0lI?autoplay=1" frameborder="0" allow="autoplay" style="display:none;"></iframe>`;
             }
         }
 
@@ -154,7 +243,6 @@
             document.getElementById('audio-wiki-container').innerHTML = '';
         }
 
-        // Lógica do Radar de Notícias
         const URL_FEED = "https://news.google.com/rss/search?q=bolsonaro+manifestação&hl=pt-BR&gl=BR&ceid=BR:pt-419";
         const API_CONVERTER = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(URL_FEED)}`;
 
@@ -165,16 +253,12 @@
                 
                 if (dados.status === 'ok') {
                     container.innerHTML = ''; 
-                    
-                    dados.items.forEach(item => {
+                    dados.items.slice(0, 8).forEach(item => {
                         const card = document.createElement('a');
                         card.href = item.link;
                         card.target = "_blank";
                         card.className = "card-auto";
-                        
-                        // Limpa a descrição para não ficar muito longa
-                        const descricaoLimpa = item.description.replace(/<[^>]*>?/gm, '').substring(0, 150);
-                        
+                        const descricaoLimpa = item.description.replace(/<[^>]*>?/gm, '').substring(0, 160);
                         card.innerHTML = `
                             <span class="data-noticia">${new Date(item.pubDate).toLocaleDateString('pt-BR')}</span>
                             <h3>${item.title}</h3>
@@ -182,14 +266,11 @@
                         `;
                         container.appendChild(card);
                     });
-                } else {
-                    throw new Error();
                 }
             } catch (erro) {
-                document.getElementById('lista-noticias').innerHTML = "<p>Erro ao conectar com o radar de notícias. Tente novamente mais tarde.</p>";
+                document.getElementById('lista-noticias').innerHTML = "<p>Erro ao conectar com o radar.</p>";
             }
         }
-
         carregarNoticias();
     </script>
 </body>

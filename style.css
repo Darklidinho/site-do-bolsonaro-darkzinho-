@@ -1,7 +1,6 @@
 /* ==========================================
    1. ESTILOS GERAIS (Universal)
    ========================================== */
-/* ISSO ARRUMA O TEXTO VAZANDO E QUEBRANDO A TELA NO CELULAR */
 *, *::before, *::after {
     box-sizing: border-box; 
 }
@@ -17,7 +16,6 @@ body {
     width: 100%;
 }
 
-/* Estrutura de Layout Padrão */
 .layout-container {
     display: flex;
     justify-content: center;
@@ -32,27 +30,26 @@ body {
 .content-area {
     flex: 1;
     min-width: 0; 
-    max-width: 850px; /* Largura ideal para leitura */
-    width: 100%; /* Impede que o container fique fino */
+    max-width: 850px; 
+    width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-/* Garante que divs internas estiquem e o VÍDEO NÃO FIQUE MINÚSCULO */
 .content-area > div, 
 .content-area > section {
     width: 100%;
 }
 
 /* ==========================================
-   2. TEXTO PADRONIZADO (Estilo Wiki para todas as páginas)
+   2. TEXTO E ANÚNCIOS INLINE
    ========================================== */
 .caixa-texto {
     background-color: #1a1a1a;
     border: 1px solid #333;
-    padding: 20px 25px; /* Ajustado para caber bem no celular */
-    text-align: left; /* Mantém o texto alinhado à esquerda para leitura */
+    padding: 20px 25px; 
+    text-align: left; 
     line-height: 1.6;
     font-family: 'serif', 'Times New Roman';
     color: #ddd;
@@ -60,13 +57,38 @@ body {
     width: 100%;
     border-radius: 8px;
     margin: 20px 0;
-    /* Força quebra de palavras muito longas (links, etc) */
     word-wrap: break-word;
     overflow-wrap: break-word;
 }
 
 .caixa-texto p {
     margin-bottom: 20px;
+}
+
+/* NOVO: Estilo para os Anúncios no meio do texto */
+.ad-meio-texto {
+    width: 100%;
+    min-height: 250px;
+    background-color: #080808;
+    border: 2px dashed #FFD700;
+    color: #FFD700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    text-align: center;
+    margin: 30px 0;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+/* Quando você for colocar uma imagem/vídeo dentro dele, isso garante que não vaze */
+.ad-meio-texto img, 
+.ad-meio-texto video {
+    max-width: 100%;
+    height: auto;
+    display: block;
 }
 
 /* ==========================================
@@ -157,10 +179,9 @@ nav a:hover {
     display: block;
 }
 
-/* Container de Vídeo 16:9 Consertado */
 .video-container {
     position: relative;
-    padding-bottom: 56.25%; /* Mantém a proporção de TV */
+    padding-bottom: 56.25%; 
     height: 0;
     overflow: hidden;
     width: 100%;
@@ -181,30 +202,50 @@ nav a:hover {
 }
 
 /* ==========================================
-   5. ANÚNCIOS (Lado a Lado no PC)
+   5. ANIMAÇÃO DE PARTÍCULAS (CAINDO DO TOPO)
    ========================================== */
-.ads-lateral {
-    width: 160px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    flex-shrink: 0;
+.area-particulas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
 }
 
-.ad-box {
-    width: 100%;
-    height: 600px;
-    border: 2px dashed #FFD700;
-    background: #080808;
-    color: #FFD700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px;
-    font-size: 11px;
-    text-transform: uppercase;
-    text-align: center;
+.particula {
+    position: absolute;
+    top: -10vh; /* Começa acima da tela */
+    font-size: 24px;
+    opacity: 0;
+    animation: cair 15s infinite linear;
 }
+
+/* Animação configurada para cair para baixo (translateY positivo) */
+@keyframes cair {
+    0% { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateY(115vh) rotate(360deg); opacity: 0; }
+}
+
+/* Distribuição das partículas */
+.p1 { left: 5%; animation-duration: 12s; }
+.p2 { left: 20%; animation-duration: 18s; animation-delay: 2s; }
+.p3 { left: 35%; animation-duration: 15s; animation-delay: 4s; }
+.p4 { left: 55%; animation-duration: 14s; animation-delay: 1s; }
+.p5 { left: 75%; animation-duration: 20s; animation-delay: 5s; }
+.p6 { left: 90%; animation-duration: 16s; animation-delay: 1s; }
+.p7 { left: 95%; animation-duration: 14s; animation-delay: 3s; }
+.p8 { left: 80%; animation-duration: 16s; animation-delay: 2s; }
+.p9 { left: 13%; animation-duration: 12s; animation-delay: 3s; }
+.p10 { left: 89%; animation-duration: 18s; animation-delay: 6s; }
+.p11 { left: 22%; animation-duration: 20s; animation-delay: 4s; }
+.p12 { left: 67%; animation-duration: 13s; animation-delay: 5s; }
+
+
 
 /* ==========================================
    6. RESPONSIVIDADE (Ajuste Mobile)
@@ -222,27 +263,9 @@ nav a:hover {
     }
 
     .caixa-texto {
-        padding: 15px; /* Reduz o padding interno no celular */
+        padding: 15px; 
         font-size: 16px;
     }
 
-    /* Anúncios viram banners horizontais embaixo do conteúdo */
-    .ads-lateral {
-        width: 100%;
-        flex-direction: row;
-        flex-wrap: wrap;
-        justify-content: center;
-        margin-top: 30px;
-    }
-
-    .ad-box {
-        width: 320px;
-        height: 100px;
-    }
-
-    /* Ajuste do Menu para Celular */
-    nav ul { flex-wrap: wrap; }
-    nav li { flex: 1 1 45%; border-bottom: 1px solid #333; }
-    
     header h1 { font-size: 30px; }
 }
